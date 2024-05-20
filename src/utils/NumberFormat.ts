@@ -1,0 +1,1 @@
+export const numberFormat = (number: number) =>  `$ ${Intl.NumberFormat("pt-br").format(number).toString()}`;
