@@ -8,11 +8,12 @@ import { LineChartHero } from "@/components/LineChart";
 import { ProgressCircleHero } from "@/components/ProgressCircle";
 import { ScatterChartHero } from "@/components/ScatterChart";
 import { SparkChartHero } from "@/components/SparkChart";
+import { TableHero } from "@/components/Table";
 import { TrackerHero } from "@/components/Tracker";
 
 export default function Home() {
   return (
-    <main>
+    <main className="">
       <AreaChartHero />
       <BarChartHero />
       <LineChartHero />
@@ -23,7 +24,14 @@ export default function Home() {
       <TrackerHero />
       <DonutChartHero />
       <DataBarsHero />
-      <BarListHero />
+      <BarListHero
+        data={[
+          { name: "/home", value: 456 },
+          { name: "/imprint", value: 351 },
+          { name: "/cancellation", value: 51 },
+        ]}
+      />
+      <TableHero />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import { numberFormat } from "@/utils/NumberFormat";
 import { AreaChart } from "@tremor/react";
+import { useEffect } from "react";
 
 const chartdata = [
   {
@@ -31,7 +32,7 @@ const chartdata = [
   {
     teste: "Jun 22",
     SemiAnalysis: 3129,
-    "The Pragmatic Engineer": 1726,
+    "The Pragmatic Engineer": 3129,
   },
   {
     teste: "Jul 22",
@@ -65,17 +66,24 @@ const chartdata = [
   },
 ];
 
-// export interface AreaChartHeroProps {
-//   data: {
-//     index: string;
-//     categories: {
-//       [key: string]: string;
-//     }[];
-//   }[];
-//   colors: string[];
-// }
+export interface AreaChartHeroProps {
+  data: {
+    index: string;
+    categories: {
+      [key: string]: string | number;
+    };
+  }[];
+  colors: string[];
+}
 
 export function AreaChartHero() {
+  // const mappedData = data.map((e) => {
+  //   const b = Object.entries(e);
+  //   b[1] = Object.entries(b[1][1])[0];
+
+  //   return Object.fromEntries(b);
+  // });
+
   return (
     <AreaChart
       className="h-80"
