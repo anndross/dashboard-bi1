@@ -464,28 +464,39 @@ export default function Home({ data }: any) {
   });
 
   return (
-    <main className="grid grid-cols-2 p-6">
-      <AreaChartHero
-        data={chartdata}
-        categories={[
-          "Quantidade em estoque",
-          "Quantidade de vendas de estoque",
-        ]}
-        colors={["indigo", "rose"]}
-        index="date"
-      />
-      <TableHero headerCells={headerCells} rowsCells={headerRows} />
-      <BarChartHero
-        index="category"
-        data={barchartdata}
-        categories={["Estoque"]}
-      />
-      <DonutChartHero
-        variant="donut"
-        onValueChange={(e) => console.log(e)}
-        data={donutchartdata}
-      />
-      <div className="col-span-full">
+    <main className="grid lg:grid-cols-2 p-6 gap-3 grid-cols-1">
+      <div className="w-full bg-white p-2 rounded-md border border-gray-200 flex items-center flex-col justify-center">
+        <AreaChartHero
+          data={chartdata}
+          categories={[
+            "Quantidade em estoque",
+            "Quantidade de vendas de estoque",
+          ]}
+          colors={["indigo", "rose"]}
+          index="date"
+        />
+      </div>
+      <div className="w-full bg-white p-2 rounded-md border border-gray-200 flex items-center flex-col justify-center">
+        <DonutChartHero
+          variant="donut"
+          onValueChange={(e) => console.log(e)}
+          data={donutchartdata}
+        />
+      </div>
+
+      <div className="w-full bg-white p-2 rounded-md border border-gray-200 flex items-center flex-col justify-center">
+        <BarChartHero
+          index="category"
+          data={barchartdata}
+          categories={["Estoque"]}
+        />
+      </div>
+
+      <div className="w-full bg-white p-2 rounded-md border border-gray-200 flex items-center flex-col justify-center max-h-96">
+        <TableHero headerCells={headerCells} rowsCells={headerRows} />
+      </div>
+
+      <div className="w-full bg-white p-2 rounded-md border border-gray-200 flex items-center flex-col justify-center col-span-full max-h-96">
         <TableHero headerCells={headerCells} rowsCells={headerRows} />
       </div>
     </main>
