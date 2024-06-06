@@ -33,14 +33,22 @@ const chartdata = [
   },
 ];
 
-export const BarChartHero = () => (
-  <BarChart
-    data={chartdata}
-    index="name"
-    categories={["Number of threatened species"]}
-    colors={["blue"]}
-    valueFormatter={numberFormat}
-    yAxisWidth={48}
-    onValueChange={(v) => console.log(v)}
-  />
-);
+export function BarChartHero({
+  data = chartdata,
+  index,
+  categories,
+  colors,
+}: any) {
+  return (
+    <BarChart
+      data={data}
+      index={index}
+      categories={categories}
+      colors={colors}
+      layout="vertical"
+      valueFormatter={numberFormat}
+      yAxisWidth={48}
+      onValueChange={(v) => console.log(v)}
+    />
+  );
+}

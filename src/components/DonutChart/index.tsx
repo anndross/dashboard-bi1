@@ -1,6 +1,6 @@
 "use client";
 import { numberFormat } from "@/utils/NumberFormat";
-import { DonutChart } from "@tremor/react";
+import { DonutChart, DonutChartProps } from "@tremor/react";
 
 const datahero = [
   {
@@ -29,35 +29,26 @@ const datahero = [
   },
 ];
 
-export const DonutChartHero = () => (
-  <>
-    <div className="mx-auto space-y-12">
-      <div className="space-y-3">
-        <span className="text-center block font-mono text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-          donut variant 1
-        </span>
-        <div className="flex justify-center">
-          <DonutChart
-            data={datahero}
-            variant="donut"
-            valueFormatter={numberFormat}
-            onValueChange={(v) => console.log(v)}
-          />
-        </div>
-      </div>
-      <div className="space-y-3">
-        <span className="text-center block font-mono text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-          pie variant
-        </span>
-        <div className="flex justify-center">
-          <DonutChart
-            data={datahero}
-            variant="pie"
-            valueFormatter={numberFormat}
-            onValueChange={(v) => console.log(v)}
-          />
-        </div>
-      </div>
-    </div>
-  </>
+interface DonutChartHeroProps extends DonutChartProps {
+  data: {
+    name: string;
+    value: number;
+  }[];
+  variant: "donut" | "pie";
+  onValueChange: DonutChartProps["onValueChange"];
+}
+
+export const DonutChartHero = ({
+  data,
+  variant,
+  onValueChange,
+  ...rest
+}: DonutChartHeroProps) => (
+  <DonutChart
+    data={data}
+    variant={variant}
+    valueFormatter={numberFormat}
+    onValueChange={onValueChange}
+    {...rest}
+  />
 );

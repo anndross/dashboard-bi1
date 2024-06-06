@@ -7,7 +7,7 @@ const mock = [
 ];
 
 interface BarListHeroProps {
-  data: {
+  data?: {
     name: string;
     value: number;
   }[];

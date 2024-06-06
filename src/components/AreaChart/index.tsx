@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 const chartdata = [
   {
-    teste: "Jan 22",
+    date: "Jan 22",
     SemiAnalysis: 2890,
     "The Pragmatic Engineer": 2338,
   },
@@ -76,7 +76,12 @@ export interface AreaChartHeroProps {
   colors: string[];
 }
 
-export function AreaChartHero() {
+export function AreaChartHero({
+  data = chartdata,
+  index,
+  categories,
+  colors,
+}: any) {
   // const mappedData = data.map((e) => {
   //   const b = Object.entries(e);
   //   b[1] = Object.entries(b[1][1])[0];
@@ -87,10 +92,10 @@ export function AreaChartHero() {
   return (
     <AreaChart
       className="h-80"
-      data={chartdata}
-      index="index"
-      categories={["SemiAnalysis", "The Pragmatic Engineer"]}
-      colors={["rose", "indigo"]}
+      data={data}
+      index={index}
+      categories={categories}
+      colors={colors}
       valueFormatter={numberFormat}
       yAxisWidth={60}
       onValueChange={(v) => console.log(v)}
