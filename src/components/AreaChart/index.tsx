@@ -96,7 +96,7 @@ export function AreaChartHero({
       index={index}
       categories={categories}
       colors={colors}
-      valueFormatter={numberFormat}
+      // valueFormatter={numberFormat}
       yAxisWidth={60}
       onValueChange={(v) => console.log(v)}
     />

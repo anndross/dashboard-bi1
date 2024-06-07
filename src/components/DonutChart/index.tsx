@@ -35,7 +35,7 @@ interface DonutChartHeroProps extends DonutChartProps {
     value: number;
   }[];
   variant: "donut" | "pie";
-  onValueChange: DonutChartProps["onValueChange"];
+  onValueChange?: DonutChartProps["onValueChange"];
 }
 
 export const DonutChartHero = ({
@@ -48,7 +48,7 @@ export const DonutChartHero = ({
     data={data}
     variant={variant}
     valueFormatter={numberFormat}
-    onValueChange={onValueChange}
+    // onValueChange={onValueChange}
     {...rest}
   />
 );
