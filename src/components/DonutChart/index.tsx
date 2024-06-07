@@ -47,7 +47,7 @@ export const DonutChartHero = ({
   <DonutChart
     data={data}
     variant={variant}
-    valueFormatter={numberFormat}
+    // valueFormatter={numberFormat}
     // onValueChange={onValueChange}
     {...rest}
   />

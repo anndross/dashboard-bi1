@@ -2,7 +2,6 @@ import { AreaChartHero } from "@/components/AreaChart";
 import { BarChartHero } from "@/components/BarChart";
 import { DonutChartHero } from "@/components/DonutChart";
 import { TableHero } from "@/components/Table";
-import { isSameDay, parse } from "date-fns";
 import { Suspense } from "react";
 
 async function getStockData() {
@@ -43,29 +42,6 @@ async function getStockData() {
     today.getDate()
   );
 
-  const tempItems: any = {};
-
-  const itemsAndStock = results.reduce(
-    (acc: any, currentValue: any) => {
-      if (acc?.[currentValue.Calendar_Date]) {
-        tempItems[currentValue.Products_Code] =
-          1 + (tempItems?.[currentValue.Products_Code] || 0);
-
-        acc[currentValue.Calendar_Date].items += currentValue;
-        acc[currentValue.Calendar_Date].stock = Object.values(tempItems).reduce(
-          (a: any, b: any) => a + b,
-          0
-        );
-      }
-    },
-    {
-      "Thu, 06 Jun 2024 00:00:00 GMT": {
-        items: 0,
-        stock: 0,
-      },
-    }
-  );
-
   // const itemsAndStock = results.reduce((acc: any, currentValue: any) => {
   //   const currentDate = parse(
   //     "Thu, 06 Jun 2024 00:00:00 GMT",
@@ -96,7 +72,6 @@ async function getStockData() {
   //   return acc;
   // }, {});
 
-  console.log("itemsAndStock", itemsAndStock);
   // return;
 
   const salesQuantityAndStocksQuantity = (() => {
@@ -131,80 +106,10 @@ async function getStockData() {
     return mappedData;
   })();
 
-  const stockByBranch = (() => {
-    const allBranchsWithStock = results.reduce(
-      (acc: any, currentValue: any) => {
-        const currentDate = parse(
-          currentValue.Calendar_Date,
-          "EEE, dd MMM yyyy HH:mm:ss 'GMT'",
-          new Date()
-        );
-
-        const currentDateWithoutHours = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          currentDate.getDate()
-        );
-
-        if (isSameDay(currentDateWithoutHours, todayWithoutHors)) {
-          acc[currentValue.Stores_Zone] =
-            currentValue.Stocks_Quantity + (acc[currentValue.Stores_Zone] || 0);
-        }
-
-        return acc;
-      },
-      {}
-    );
-
-    const mappedData = Object.entries(allBranchsWithStock).map((e) => {
-      return {
-        name: e[0] as string,
-        value: e[1] as number,
-      };
-    });
-
-    return mappedData;
-  })();
-
-  const stockByCategory = (() => {
-    const allCategoriesWithStock = results.reduce(
-      (acc: any, currentValue: any) => {
-        const currentDate = parse(
-          currentValue.Calendar_Date,
-          "EEE, dd MMM yyyy HH:mm:ss 'GMT'",
-          new Date()
-        );
-
-        const currentDateWithoutHours = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          currentDate.getDate()
-        );
-
-        if (isSameDay(currentDateWithoutHours, todayWithoutHors)) {
-          acc[currentValue.Products_Category] =
-            currentValue.Stocks_Quantity +
-            (acc[currentValue.Calendar_Date] || 0);
-        }
-        return acc;
-      },
-      {}
-    );
-
-    const mappedData = Object.entries(allCategoriesWithStock).map((e) => {
-      return {
-        category: e[0] as string,
-        Estoque: e[1] as number,
-      };
-    });
-
-    return mappedData;
-  })();
-
   return {
     salesQuantityAndStocksQuantity,
-    stockByBranch,
-    stockByCategory,
+    // stockByBranch,
+    // stockByCategory,
     // availableStock,
     // itemsTotal,
   };
@@ -281,13 +186,83 @@ async function getStockTableData() {
 
   const { results } = await res.json();
 
+  const stockByBranch = (() => {
+    const allBranchsWithStock = results.reduce(
+      (acc: any, currentValue: any) => {
+        acc[currentValue.Stores_Zone] =
+          currentValue.Stocks_Quantity + (acc[currentValue.Stores_Zone] || 0);
+
+        return acc;
+      },
+      {}
+    );
+
+    const data = Object.entries(allBranchsWithStock).map((e) => {
+      return {
+        name: e[0] as string,
+        value: e[1] as number,
+      };
+    });
+
+    const categories = data.map((e) => e.name);
+
+    return { data, categories };
+  })();
+
+  const stockByCategory = (() => {
+    const allCategoriesWithStock = results.reduce(
+      (acc: any, currentValue: any) => {
+        acc[currentValue.Products_Category] =
+          currentValue.Stocks_Quantity + (acc[currentValue.Calendar_Date] || 0);
+
+        return acc;
+      },
+      {}
+    );
+
+    const mappedData = Object.entries(allCategoriesWithStock).map((e) => {
+      return {
+        category: e[0] as string,
+        Estoque: e[1] as number,
+      };
+    });
+
+    return mappedData;
+  })();
+
+  const tempItems: any = {};
+
+  const { items, stock } = results.reduce(
+    (acc: any, currentValue: any) => {
+      acc.stock += currentValue.Stocks_Quantity;
+
+      tempItems[currentValue.Products_Code] =
+        1 + (tempItems[currentValue.Products_Code] || 0);
+
+      acc.items = Object.values(tempItems).reduce((a: any, b: any) => a + b, 0);
+
+      return acc;
+    },
+    {
+      items: 0,
+      stock: 0,
+    }
+  );
+
   const [headerPrototype] = results;
 
   const headerCells = Object.keys(headerPrototype);
 
   const rowsCells = results.map((e: any) => Object.values(e));
 
-  return { headerCells, rowsCells };
+  return {
+    headerCells,
+    rowsCells,
+    stockByCategory,
+    stockByBranch,
+    items,
+    stock,
+  };
 }
 
 // async function fetchStocksMov() {
@@ -318,6 +293,7 @@ async function getStockTableData() {
 //   const data = await res.json();
 //   return data;
 // }
+
 const LoadingFallback = () => (
   <div className="w-full h-60 flex items-center justify-center">
     <div role="status">
@@ -344,34 +320,94 @@ const LoadingFallback = () => (
 
 async function AreaChartHeroServer() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-  const { salesQuantityAndStocksQuantity } = await getStockData();
+  const [{ salesQuantityAndStocksQuantity }, { items, stock }] =
+    await Promise.all([getStockData(), getStockTableData()]);
 
   return (
-    <AreaChartHero
-      data={salesQuantityAndStocksQuantity}
-      categories={["Quantidade em estoque", "Quantidade de vendas de estoque"]}
-      colors={["indigo", "rose"]}
-      index="date"
-    />
+    <>
+      <div className="w-full flex gap-8 justify-start">
+        <div className="flex flex-col gap-2">
+          <h2 className="uppercase text-sm text-zinc-700 font-semibold">
+            Estoque disponível:
+          </h2>
+          <h3 className="font-bold text-2xl text-zinc-800">{stock}</h3>
+        </div>
+        <div className="flex flex-col gap-2">
+          <h2 className="uppercase text-sm text-zinc-700 font-semibold">
+            Itens:
+          </h2>
+          <h3 className="font-bold text-2xl text-zinc-800">{items}</h3>
+        </div>
+      </div>
+
+      <AreaChartHero
+        data={salesQuantityAndStocksQuantity}
+        categories={[
+          "Quantidade em estoque",
+          "Quantidade de vendas de estoque",
+        ]}
+        colors={["indigo", "rose"]}
+        index="date"
+      />
+    </>
   );
 }
 
+const CustomLegend = ({ colors, categories }: any) => (
+  <div className="flex flex-col gap-2 items-start">
+    {categories.map((e: any, index: number) => {
+      return (
+        <div
+          key={e}
+          className="flex items-center justify-start gap-2 text-left"
+        >
+          <div
+            className={`h-[6px] w-[6px] rounded-full bg-${colors[index]}-700`}
+          ></div>
+          <span className="text-zinc-700 text-sm whitespace-nowrap">{e}</span>
+        </div>
+      );
+    })}
+  </div>
+);
+
 async function DonutChartHeroServer() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-  const { stockByBranch } = await getStockData();
+  const {
+    stockByBranch: { data, categories },
+  } = await getStockTableData();
 
   return (
-    <DonutChartHero
-      variant="donut"
-      // onValueChange={(e) => console.log(e)}
-      data={stockByBranch}
-    />
+    <div className="flex items-center justify-start space-x-6">
+      <div className="w-60">
+        <DonutChartHero variant="donut" data={data} />
+      </div>
+      <CustomLegend
+        categories={categories}
+        colors={[
+          "blue",
+          "cyan",
+          "indigo",
+          "violet",
+          "fuchsia",
+          "orange",
+          "red",
+          "pink",
+          "indigo",
+          "violet",
+          "fuchsia",
+          "orange",
+          "red",
+          "pink",
+        ]}
+      />
+    </div>
   );
 }
 
 async function BarChartHeroServer() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-  const { stockByCategory } = await getStockData();
+  const { stockByCategory } = await getStockTableData();
 
   return (
     <BarChartHero
@@ -400,46 +436,59 @@ export default async function Home() {
   return (
     <>
       <main className="grid lg:grid-cols-2 p-6 gap-3 grid-cols-1">
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-center">
-          <div className="w-full flex gap-8 justify-start">
-            <div className="flex flex-col gap-2">
-              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
-                Estoque disponível:
-              </h2>
-              {/* <h3 className="font-bold text-2xl text-zinc-800">{availableStock}</h3> */}
-            </div>
-            <div className="flex flex-col gap-2">
-              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
-                Itens:
-              </h2>
-              {/* <h3 className="font-bold text-2xl text-zinc-800">{itemsTotal}</h3> */}
-            </div>
-          </div>
-
+        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
           <Suspense fallback={<LoadingFallback />}>
             <AreaChartHeroServer />
           </Suspense>
         </div>
 
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-center">
+        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
+          <div className="w-full flex gap-8 justify-start">
+            <div className="flex flex-col gap-2">
+              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
+                Estoque por filial
+              </h2>
+            </div>
+          </div>
           <Suspense fallback={<LoadingFallback />}>
             <DonutChartHeroServer />
           </Suspense>
         </div>
 
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-center">
+        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
+          <div className="w-full flex gap-8 justify-start">
+            <div className="flex flex-col gap-2">
+              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
+                Estoque por categoria
+              </h2>
+            </div>
+          </div>
           <Suspense fallback={<LoadingFallback />}>
             <BarChartHeroServer />
           </Suspense>
         </div>
 
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-center max-h-96">
+        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start max-h-96">
+          <div className="w-full flex gap-8 justify-start">
+            <div className="flex flex-col gap-2">
+              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
+                saúde de estoque por item
+              </h2>
+            </div>
+          </div>
           <Suspense fallback={<LoadingFallback />}>
             <TableHeroStockServer />
           </Suspense>
         </div>
 
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-center col-span-full max-h-96">
+        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start col-span-full max-h-96">
+          <div className="w-full flex gap-8 justify-start">
+            <div className="flex flex-col gap-2">
+              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
+                pedidos
+              </h2>
+            </div>
+          </div>
           <Suspense fallback={<LoadingFallback />}>
             <TableHeroItemsServer />
           </Suspense>
