@@ -1,6 +1,7 @@
 import { AreaChartHero } from "@/components/AreaChart";
 import { BarChartHero } from "@/components/BarChart";
 import { DonutChartHero } from "@/components/DonutChart";
+import { Filters } from "@/components/Filters";
 import { TableHero } from "@/components/Table";
 import { readFile, readFileSync } from "fs";
 import path from "path";
@@ -417,6 +418,17 @@ async function TableHeroItemsServer() {
 export default async function Home() {
   return (
     <>
+      <div className="w-full h-12 bg-white px-10 flex items-center justify-end">
+        <Filters.Root>
+          <Filters.Label>filtrar por:</Filters.Label>
+
+          <Filters.Date />
+          <Filters.Product />
+          <Filters.Area />
+          <Filters.Category />
+        </Filters.Root>
+      </div>
+
       <main className="grid lg:grid-cols-2 p-6 gap-3 grid-cols-1">
         <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
           <Suspense fallback={<LoadingFallback />}>
