@@ -2,45 +2,48 @@ import { AreaChartHero } from "@/components/AreaChart";
 import { BarChartHero } from "@/components/BarChart";
 import { DonutChartHero } from "@/components/DonutChart";
 import { TableHero } from "@/components/Table";
+import { readFile, readFileSync } from "fs";
+import path from "path";
 import { Suspense } from "react";
 
 async function getStockData() {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+  // const myHeaders = new Headers();
+  // myHeaders.append("Content-Type", "application/json");
 
-  const raw = JSON.stringify({
-    procedure: "p.SM_Dash_Stocksmov",
-    params: {
-      CalendarYear: "2024",
-    },
-  });
+  // const raw = JSON.stringify({
+  //   procedure: "p.SM_Dash_Stocksmov",
+  //   params: {
+  //     CalendarYear: "2024",
+  //   },
+  // });
 
-  const requestOptions: RequestInit = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-    cache: "no-store",
-  };
+  // const requestOptions: RequestInit = {
+  //   method: "POST",
+  //   headers: myHeaders,
+  //   body: raw,
+  //   redirect: "follow",
+  //   cache: "no-store",
+  // };
 
-  const res = await fetch(
-    "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-    requestOptions
-  );
+  // const res = await fetch(
+  //   "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
+  //   requestOptions
+  // );
 
-  if (!res.ok) {
-    throw new Error("Something went wrong");
-  }
+  // if (!res.ok) {
+  //   throw new Error("Something went wrong");
+  // }
 
-  const { results } = await res.json();
+  // const { results } = await res.json();
+  // // return results;
 
-  const today = new Date();
+  // const today = new Date();
 
-  const todayWithoutHors = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
+  // const todayWithoutHors = new Date(
+  //   today.getFullYear(),
+  //   today.getMonth(),
+  //   today.getDate()
+  // );
 
   // const itemsAndStock = results.reduce((acc: any, currentValue: any) => {
   //   const currentDate = parse(
@@ -73,6 +76,12 @@ async function getStockData() {
   // }, {});
 
   // return;
+  // console.log(results);
+  // return results;
+
+  const { results } = JSON.parse(
+    readFileSync(path.resolve(process.cwd(), "src/data/stock.json"), "utf-8")
+  );
 
   const salesQuantityAndStocksQuantity = (() => {
     const salesQuantityAndStocksQuantityData = results.reduce(
@@ -87,6 +96,7 @@ async function getStockData() {
               "Quantidade de vendas de estoque"
             ] || 0),
         };
+
         return acc;
       },
       {}
@@ -106,6 +116,7 @@ async function getStockData() {
     return mappedData;
   })();
 
+  // return salesQuantityAndStocksQuantity;
   return {
     salesQuantityAndStocksQuantity,
     // stockByBranch,
@@ -264,35 +275,6 @@ async function getStockTableData() {
     stock,
   };
 }
-
-// async function fetchStocksMov() {
-//   const myHeaders = new Headers();
-//   myHeaders.append("Content-Type", "application/json");
-
-//   const raw = JSON.stringify({
-//     procedure: "p.SM_Dash_Stocksmov",
-//     params: {
-//       CalendarYear: "2024",
-//     },
-//   });
-
-//   const requestOptions: RequestInit = {
-//     method: "POST",
-//     headers: myHeaders,
-//     body: raw,
-//     redirect: "follow",
-// cache: "no-store";
-//     cache: "force-cache",
-//   };
-
-//   const res = await fetch(
-//     "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-//     requestOptions
-//   );
-
-//   const data = await res.json();
-//   return data;
-// }
 
 const LoadingFallback = () => (
   <div className="w-full h-60 flex items-center justify-center">
