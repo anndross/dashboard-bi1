@@ -52,6 +52,10 @@ body {
   background: #F5F6FA;
 }
 
+.tremor-DateRangePicker-calendarIcon {
+  display: none;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

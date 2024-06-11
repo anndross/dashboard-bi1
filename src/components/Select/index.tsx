@@ -1,11 +1,13 @@
+import { Field, Select } from "@headlessui/react";
 import {
   MultiSelect,
   MultiSelectItem,
   SearchSelect,
   SearchSelectItem,
-  Select,
+  // Select,
   SelectItem,
 } from "@tremor/react";
+import clsx from "clsx";
 
 interface SelectHeroProps {
   variant: "select" | "search" | "multi";
@@ -14,15 +16,30 @@ interface SelectHeroProps {
 
 type SelectProps = Omit<SelectHeroProps, "variant">;
 
+
+
 function SelectNormal({ options }: SelectProps) {
   return (
-    <Select defaultValue={options[0].value}>
-      {options.map((e) => (
-        <SelectItem key={e.value} value={e.value}>
-          {e.label}
-        </SelectItem>
-      ))}
-    </Select>
+    <Field>
+      <div className="relative">
+        <Select
+          defaultValue={options[0].value}
+          className={clsx(
+            "block w-full appearance-none rounded-lg border-0 border-none bg-white text-zinc-800",
+            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
+            // Make the text of each option black on Windows
+            "*:text-black"
+          )}
+        >
+          {options.map((e) => (
+            <option className="min-h-5" key={e.value} value={e.value}>
+              {e.label}
+            </option>
+          ))}
+        </Select>
+        <i className="ri-arrow-down-s-line"></i>
+      </div>
+    </Field>
   );
 }
 
@@ -58,35 +75,4 @@ export function SelectHero({ variant = "select", options }: SelectHeroProps) {
   };
 
   return mappedComponents[variant];
-
-  return (
-    <div className="mx-auto max-w-xs">
-      <div className="mb-4 text-center font-mono text-sm text-slate-500">
-        Select
-      </div>
-      <Select defaultValue="1">
-        <SelectItem value="1">Option One</SelectItem>
-        <SelectItem value="2">Option Two</SelectItem>
-        <SelectItem value="3">Option Three</SelectItem>
-      </Select>
-
-      <div className="mb-4 mt-8 text-center font-mono text-sm text-slate-500">
-        SearchSelect
-      </div>
-      <SearchSelect>
-        <SearchSelectItem value="1">Option 1</SearchSelectItem>
-        <SearchSelectItem value="2">Option 2</SearchSelectItem>
-        <SearchSelectItem value="3">Option 3</SearchSelectItem>
-      </SearchSelect>
-
-      <div className="mb-4 mt-8 text-center font-mono text-sm text-slate-500">
-        MultiSelect
-      </div>
-      <MultiSelect>
-        <MultiSelectItem value="1">Option 1</MultiSelectItem>
-        <MultiSelectItem value="2">Option 2</MultiSelectItem>
-        <MultiSelectItem value="3">Option 3</MultiSelectItem>
-      </MultiSelect>
-    </div>
-  );
 }
