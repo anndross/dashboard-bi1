@@ -82,6 +82,7 @@ export function SignInForm() {
         className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
       >
         <Image
+          unoptimized
           className="w-auto h-6 mt-6"
           src="/assets/bi1-logo.svg"
           alt="BI1 logo"

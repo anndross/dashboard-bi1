@@ -10,6 +10,7 @@ export function Header({ notLogged = false }: HeaderProps) {
     <header className="z-20 w-full h-20 fixed top-0 bg-zinc-700 flex items-center justify-between px-10">
       <Link href="/">
         <Image
+          unoptimized
           src="/assets/logo.svg"
           width={64}
           height={38}
