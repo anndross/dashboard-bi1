@@ -53,5 +53,7 @@ async function GetStockByCategory() {
 export async function StockByCategory() {
   const data = await GetStockByCategory();
 
-  return <BarChartHero index="category" data={data} categories={["Estoque"]} />;
+  return (
+      <BarChartHero index="category" data={data} categories={["Estoque"]} />
+  );
 }

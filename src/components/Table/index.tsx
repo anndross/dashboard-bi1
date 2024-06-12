@@ -8,10 +8,12 @@ import {
 } from "@tremor/react";
 import Image from "next/image";
 import { Badge } from "../Badge";
+import { Tailwindest } from "tailwindest";
 
 interface TableHeroProps {
   headerCells: string[];
   rowsCells: (string | number)[][];
+  heightCells?: Tailwindest["height"];
 }
 
 function renderRelativeTag(element: any) {
@@ -47,7 +49,7 @@ function renderRelativeTag(element: any) {
       element.includes(".webp") ||
       element.includes(".jpeg")
     ) {
-      return <img src={element} width={60} height={60} alt="" title="" />;
+      return <img src={element} width={100} height={100} alt="" title="" />;
     }
 
     return element;
@@ -55,13 +57,19 @@ function renderRelativeTag(element: any) {
   return element;
 }
 
-export function TableHero({ headerCells, rowsCells }: TableHeroProps) {
+export function TableHero({
+  headerCells,
+  rowsCells,
+  heightCells,
+}: TableHeroProps) {
   return (
-    <Table className="w-full h-full overflow-auto">
+    <Table className="relative w-full h-full overflow-auto">
       <TableHead>
         <TableRow>
           {headerCells.map((cell) => (
-            <TableHeaderCell key={cell}>{cell}</TableHeaderCell>
+            <TableHeaderCell className="sticky top-0 z-10 bg-white" key={cell}>
+              {cell}
+            </TableHeaderCell>
           ))}
         </TableRow>
       </TableHead>
@@ -70,7 +78,10 @@ export function TableHero({ headerCells, rowsCells }: TableHeroProps) {
         {rowsCells.map((cells, index) => (
           <TableRow key={index}>
             {cells.map((cell) => (
-              <TableCell className="max-w-96 text-wrap" key={cell}>
+              <TableCell
+                className={`max-w-96 ${heightCells} text-wrap`}
+                key={cell}
+              >
                 {renderRelativeTag(cell)}
               </TableCell>
             ))}

@@ -41,12 +41,14 @@ export function BarChartHero({
 }: any) {
   return (
     <BarChart
+      className="h-[1300px] w-full"
       data={data}
       index={index}
       categories={categories}
       colors={colors}
       layout="vertical"
-      yAxisWidth={48}
+      yAxisWidth={150}
+      valueFormatter={numberFormat}
       onValueChange={(v) => console.log(v)}
     />
   );

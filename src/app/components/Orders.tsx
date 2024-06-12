@@ -49,5 +49,11 @@ export async function Orders() {
 
   const { headerCells, rowsCells } = await getOrders();
 
-  return <TableHero headerCells={headerCells} rowsCells={rowsCells} />;
+  return (
+    <TableHero
+      heightCells="h-56"
+      headerCells={headerCells}
+      rowsCells={rowsCells}
+    />
+  );
 }

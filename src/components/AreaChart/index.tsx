@@ -82,13 +82,6 @@ export function AreaChartHero({
   categories,
   colors,
 }: any) {
-  // const mappedData = data.map((e) => {
-  //   const b = Object.entries(e);
-  //   b[1] = Object.entries(b[1][1])[0];
-
-  //   return Object.fromEntries(b);
-  // });
-
   return (
     <AreaChart
       className="h-80"
@@ -96,7 +89,7 @@ export function AreaChartHero({
       index={index}
       categories={categories}
       colors={colors}
-      // valueFormatter={numberFormat}
+      valueFormatter={numberFormat}
       yAxisWidth={60}
       onValueChange={(v) => console.log(v)}
     />

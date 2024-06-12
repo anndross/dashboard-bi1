@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AuthActions } from "../actions/auth-actions";
 
 export function SignInForm() {
@@ -76,6 +77,19 @@ export function SignInForm() {
           </form>
         </div>
       </div>
+      <a
+        href="#"
+        className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+      >
+        <Image
+          className="w-auto h-6 mt-6"
+          src="/assets/bi1-logo.svg"
+          alt="BI1 logo"
+          height={180}
+          width={180}
+          title="BI1"
+        />
+      </a>
     </div>
   );
 }

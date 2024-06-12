@@ -42,5 +42,11 @@ async function getStockHealth() {
 export async function StockHealthByItem() {
   const { headerCells, rowsCells } = await getStockHealth();
 
-  return <TableHero headerCells={headerCells} rowsCells={rowsCells} />;
+  return (
+    <TableHero
+      heightCells="h-28"
+      headerCells={headerCells}
+      rowsCells={rowsCells}
+    />
+  );
 }
