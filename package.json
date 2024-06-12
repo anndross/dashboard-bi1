@@ -17,6 +17,7 @@
     "@remixicon/react": "^4.2.0",
     "@tremor/react": "^3.16.3",
     "date-fns": "^3.6.0",
+    "jose": "^5.4.0",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18"

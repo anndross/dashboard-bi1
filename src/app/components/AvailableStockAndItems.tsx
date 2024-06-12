@@ -1,7 +1,7 @@
 export async function AvailableStockAndItems() {
   async function GetAvailableStockAndItems() {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
       procedure: "p.SM_Dash_Stocks",
@@ -13,7 +13,7 @@ export async function AvailableStockAndItems() {
 
     const requestOptions: RequestInit = {
       method: "POST",
-      headers: myHeaders,
+      headers: headers,
       body: raw,
       redirect: "follow",
       cache: "no-store",

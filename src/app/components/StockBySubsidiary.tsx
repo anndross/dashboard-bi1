@@ -1,6 +1,5 @@
 import { DonutChartHero } from "@/components/DonutChart";
 import { Legend } from "@/components/Legend";
-// import { Legend } from "@/components/Legend";
 
 async function GetStockBySubsidiary() {
   const myHeaders = new Headers();
