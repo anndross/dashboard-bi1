@@ -24,22 +24,9 @@ export default async function HomePage() {
       </div>
 
       <main className="grid lg:grid-cols-2 p-6 gap-3 grid-cols-1">
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
+        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex col-span-full items-center flex-col justify-start">
           <Suspense fallback={<Loading />}>
             <StockAndSales />
-          </Suspense>
-        </div>
-
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
-          <div className="w-full flex gap-8 justify-start">
-            <div className="flex flex-col gap-2">
-              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
-                Estoque por filial
-              </h2>
-            </div>
-          </div>
-          <Suspense fallback={<Loading />}>
-            <StockBySubsidiary />
           </Suspense>
         </div>
 
@@ -55,8 +42,20 @@ export default async function HomePage() {
             <StockByCategory />
           </Suspense>
         </div>
+        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
+          <div className="w-full flex gap-8 justify-start">
+            <div className="flex flex-col gap-2">
+              <h2 className="uppercase text-sm text-zinc-700 font-semibold">
+                Estoque por filial
+              </h2>
+            </div>
+          </div>
+          <Suspense fallback={<Loading />}>
+            <StockBySubsidiary />
+          </Suspense>
+        </div>
 
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start max-h-96">
+        <div className="w-full bg-white p-4 h-[100vh] rounded-md border border-gray-200 flex items-center col-span-full flex-col justify-start">
           <div className="w-full flex gap-8 justify-start">
             <div className="flex flex-col gap-2">
               <h2 className="uppercase text-sm text-zinc-700 font-semibold">
@@ -69,7 +68,7 @@ export default async function HomePage() {
           </Suspense>
         </div>
 
-        <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start col-span-full max-h-96">
+        <div className="w-full bg-white p-4 rounded-md border h-[100vh] border-gray-200 flex items-center flex-col justify-start col-span-full">
           <div className="w-full flex gap-8 justify-start">
             <div className="flex flex-col gap-2">
               <h2 className="uppercase text-sm text-zinc-700 font-semibold">
@@ -81,7 +80,7 @@ export default async function HomePage() {
             <Orders />
           </Suspense>
         </div>
-      </main> 
+      </main>
     </>
   );
 }

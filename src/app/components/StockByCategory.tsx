@@ -28,8 +28,9 @@ async function GetStockByCategory() {
   const stockByCategory = (() => {
     const allCategoriesWithStock = results.reduce(
       (acc: any, currentValue: any) => {
-        acc[currentValue.Products_Category] =
-          currentValue.Stocks_Quantity + (acc[currentValue.Calendar_Date] || 0);
+        acc[currentValue["Categoria"]] =
+          currentValue["Qtde Estoque"] +
+          (acc[currentValue["Últ. Pedido"]] || 0);
 
         return acc;
       },

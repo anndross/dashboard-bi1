@@ -1,5 +1,6 @@
 import { AreaChartHero } from "@/components/AreaChart";
 import { AvailableStockAndItems } from "./AvailableStockAndItems";
+import { format } from "date-fns";
 
 async function GetStockAndSales() {
   const myHeaders = new Headers();
@@ -27,7 +28,7 @@ async function GetStockAndSales() {
   ).then((data) => data.json());
 
   const { results } = res;
-  
+
   const salesQuantityAndStocksQuantity = (() => {
     const salesQuantityAndStocksQuantityData = results.reduce(
       (acc: any, currentValue: any) => {
@@ -35,11 +36,9 @@ async function GetStockAndSales() {
           "Quantidade em estoque":
             currentValue.Stocks_Quantity +
             (acc[currentValue.Calendar_Date]?.["Quantidade em estoque"] || 0),
-          "Quantidade de vendas de estoque":
+          "Quantidade de vendas":
             currentValue.QuantitySalesDay +
-            (acc[currentValue.Calendar_Date]?.[
-              "Quantidade de vendas de estoque"
-            ] || 0),
+            (acc[currentValue.Calendar_Date]?.["Quantidade de vendas"] || 0),
         };
 
         return acc;
@@ -53,15 +52,15 @@ async function GetStockAndSales() {
 
     const mappedData = salesQuantityAndStocksQuantityEntries.map((e: any) => {
       return {
-        date: e[0],
+        date: format(new Date(e[0]), "dd/MM/yyyy"),
         ...e[1],
       };
     });
 
     return mappedData;
   })();
-  
-  return salesQuantityAndStocksQuantity
+
+  return salesQuantityAndStocksQuantity;
 }
 
 export async function StockAndSales() {
@@ -72,10 +71,7 @@ export async function StockAndSales() {
       <AvailableStockAndItems />
       <AreaChartHero
         data={salesQuantityAndStocksQuantity}
-        categories={[
-          "Quantidade em estoque",
-          "Quantidade de vendas de estoque",
-        ]}
+        categories={["Quantidade em estoque", "Quantidade de vendas"]}
         colors={["indigo", "rose"]}
         index="date"
       />

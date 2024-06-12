@@ -46,7 +46,6 @@ export function BarChartHero({
       categories={categories}
       colors={colors}
       layout="vertical"
-      valueFormatter={numberFormat}
       yAxisWidth={48}
       onValueChange={(v) => console.log(v)}
     />

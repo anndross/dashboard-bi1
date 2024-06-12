@@ -14,13 +14,12 @@ interface TableHeroProps {
 }
 
 function renderRelativeTag(element: any) {
-
-  if(typeof element === "string") {
+  if (typeof element === "string") {
     if (
       element.includes(".jpg") ||
       element.includes(".png") ||
       element.includes(".svg") ||
-      element.includes(".webm") ||
+      element.includes(".webp") ||
       element.includes(".jpeg")
     ) {
       return <img src={element} width={60} height={60} alt="" title="" />;
@@ -33,7 +32,7 @@ function renderRelativeTag(element: any) {
 
 export function TableHero({ headerCells, rowsCells }: TableHeroProps) {
   return (
-    <Table className="w-full overflow-auto">
+    <Table className="w-full h-full overflow-auto">
       <TableHead>
         <TableRow>
           {headerCells.map((cell) => (

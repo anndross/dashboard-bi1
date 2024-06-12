@@ -31,8 +31,8 @@ async function GetStockBySubsidiary() {
   const stockBySubsidiary = (() => {
     const allBranchsWithStock = results.reduce(
       (acc: any, currentValue: any) => {
-        acc[currentValue.Stores_Zone] =
-          currentValue.Stocks_Quantity + (acc[currentValue.Stores_Zone] || 0);
+        acc[currentValue["Área"]] =
+          currentValue["Qtde Estoque"] + (acc[currentValue["Área"]] || 0);
 
         return acc;
       },
@@ -46,7 +46,7 @@ async function GetStockBySubsidiary() {
       };
     });
 
-    const categories = data.map((e) => e.name).filter(e => e.length);
+    const categories = data.map((e) => e.name).filter((e) => e.length);
 
     return { data, categories };
   })();

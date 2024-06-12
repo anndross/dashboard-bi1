@@ -28,7 +28,7 @@ export async function AvailableStockAndItems() {
 
     const { items, stock } = results.reduce(
       (acc: any, currentValue: any) => {
-        acc.stock += currentValue.Stocks_Quantity;
+        acc.stock += currentValue["Qtde Estoque"];
 
         tempItems[currentValue.Products_Code] =
           1 + (tempItems[currentValue.Products_Code] || 0);

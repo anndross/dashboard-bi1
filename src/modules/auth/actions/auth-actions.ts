@@ -36,7 +36,7 @@ async function login(formData: FormData) {
   if(res.ok) {
     await AuthService.createSessionToken({ name: data.first_name, email: data.email })
 
-    redirect('/home')
+    redirect('/estoque')
   }   
 }
 

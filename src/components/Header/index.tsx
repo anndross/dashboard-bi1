@@ -4,7 +4,7 @@ import Link from "next/link";
 export function Header() {
   return (
     <header className="h-20 bg-zinc-700 flex items-center justify-between px-10">
-      <Link href='/'>
+      <Link href="/">
         <Image
           src="/assets/logo.svg"
           width={64}
@@ -15,16 +15,13 @@ export function Header() {
       </Link>
       <nav className="flex gap-2">
         <Link className="uppercase text-white text-sm font-medium" href="/">
-          home
+          estoque
         </Link>
         <Link className="uppercase text-white text-sm font-medium" href="/">
           agenda
         </Link>
         <Link className="uppercase text-white text-sm font-medium" href="/">
           relatórios
-        </Link>
-        <Link className="uppercase text-white text-sm font-medium" href="/">
-          estoque
         </Link>
       </nav>
 
