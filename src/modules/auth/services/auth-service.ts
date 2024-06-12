@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 
 
 async function openSessionToken(token: string) {
-  const secret = new TextEncoder().encode(process.env.AUTH_SECRET || '1o3nrfoadnfanofaopwens')
+  const secret = new TextEncoder().encode(process.env.AUTH_SECRET)
 
   const { payload } = await jose.jwtVerify(token, secret)
 
@@ -11,7 +11,7 @@ async function openSessionToken(token: string) {
 }
 
 async function createSessionToken(payload = {}) {
-  const secret = new TextEncoder().encode(process.env.AUTH_SECRET || '1o3nrfoadnfanofaopwens')
+  const secret = new TextEncoder().encode(process.env.AUTH_SECRET)
 
   const session = await new jose.SignJWT(payload)
     .setProtectedHeader({
@@ -25,7 +25,6 @@ async function createSessionToken(payload = {}) {
   cookies().set('session', session, {
     expires: exp as number * 1000,
     path: '/',
-    httpOnly: true
   })
 }
 

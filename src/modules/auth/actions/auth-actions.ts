@@ -34,7 +34,7 @@ async function login(formData: FormData) {
   }
 
   if(res.ok) {
-    await AuthService.createSessionToken({ sub: data.user.Sk_User, name: data.first_name, email: data.email })
+    await AuthService.createSessionToken({ name: data.first_name, email: data.email })
 
     redirect('/home')
   }   
