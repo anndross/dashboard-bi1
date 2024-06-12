@@ -20,7 +20,8 @@
     "jose": "^5.4.0",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwindest": "^2.3.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.4.0",

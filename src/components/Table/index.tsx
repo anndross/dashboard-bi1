@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@tremor/react";
 import Image from "next/image";
+import { Badge } from "../Badge";
 
 interface TableHeroProps {
   headerCells: string[];
@@ -14,8 +15,32 @@ interface TableHeroProps {
 }
 
 function renderRelativeTag(element: any) {
-  if (typeof element === "string") {
-    if (
+  // Função para normalizar a string
+  const normalizeString = (str: string) =>
+    typeof str === "string" ? str.normalize("NFKC") : str;
+
+  const mappedHealthElement = normalizeString(element);
+
+  const mappedHealthStock: any = {
+    "PARADO (+6m)": <Badge deltaType="unchanged">{mappedHealthElement}</Badge>,
+    "PARADO (3-6m)": <Badge deltaType="unchanged">{mappedHealthElement}</Badge>,
+    "SEM VENDA": (
+      <Badge deltaType="moderateDecrease">{mappedHealthElement}</Badge>
+    ),
+    "FIM SUPEIOR 1 MES": (
+      <Badge deltaType="moderateDecrease">{mappedHealthElement}</Badge>
+    ),
+    "FIM RECENTE": (
+      <Badge deltaType="moderateDecrease">{mappedHealthElement}</Badge>
+    ),
+    SAUDÁVEL: <Badge deltaType="moderateIncrease">{mappedHealthElement}</Badge>,
+  };
+
+  // Retorna a tag correspondente, se existir
+  if (typeof mappedHealthElement === "string") {
+    if (mappedHealthStock[mappedHealthElement]) {
+      return mappedHealthStock[mappedHealthElement];
+    } else if (
       element.includes(".jpg") ||
       element.includes(".png") ||
       element.includes(".svg") ||

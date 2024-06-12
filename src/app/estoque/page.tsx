@@ -6,6 +6,7 @@ import { StockBySubsidiary } from "../components/StockBySubsidiary";
 import { StockByCategory } from "../components/StockByCategory";
 import { StockHealthByItem } from "../components/StockHealthByItem";
 import { Orders } from "../components/Orders";
+import { Badge } from "@/components/Badge";
 
 export default async function HomePage() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
