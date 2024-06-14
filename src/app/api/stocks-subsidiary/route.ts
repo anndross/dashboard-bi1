@@ -1,4 +1,6 @@
 export async function GET() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
