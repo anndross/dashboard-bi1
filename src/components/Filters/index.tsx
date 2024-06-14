@@ -1,15 +1,11 @@
-import { FiltersArea } from "./FiltersArea";
-import { FiltersCategory } from "./FiltersCategory";
-import { FiltersDate } from "./FiltersDate";
+import { FiltersSelect } from "./FiltersSelect";
 import { FiltersLabel } from "./FiltersLabel";
-import { FiltersProduct } from "./FiltersProduct";
 import { FiltersRoot } from "./FiltersRoot";
+import { FiltersDate } from "./FiltersDate";
 
 export const Filters = {
   Root: FiltersRoot,
   Label: FiltersLabel,
-  Category: FiltersCategory,
-  Product: FiltersProduct,
-  Area: FiltersArea,
-  Date: FiltersDate,
+  Select: FiltersSelect,
+  DatePicker: FiltersDate,
 };

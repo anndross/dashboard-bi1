@@ -1,55 +1,25 @@
-export async function AvailableStockAndItems() {
-  async function GetAvailableStockAndItems() {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
+"use client";
+import { useEffect, useState } from "react";
 
-    const raw = JSON.stringify({
-      procedure: "p.SM_Dash_Stocks",
-      params: {
-        CalendarYear: "2024",
-        User: "5",
-      },
-    });
+type availableStocksType = { stock: number; items: number };
+export function AvailableStockAndItems() {
+  const [availableStockAndItems, setAvailableStockAndItems] =
+    useState<availableStocksType>({ stock: 0, items: 0 });
 
-    const requestOptions: RequestInit = {
-      method: "POST",
-      headers: headers,
-      body: raw,
-      redirect: "follow",
-      cache: "no-store",
-    };
+  useEffect(() => {
+    async function getData() {
+      const res: any = await fetch(
+        "http://localhost:3000/api/avaliable-stock-and-items"
+      );
+      const { data } = await res.json();
 
-    const { results } = await fetch(
-      "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-      requestOptions
-    ).then((data) => data.json());
+      setAvailableStockAndItems(data);
+    }
 
-    const tempItems: { [productCode: number]: number } = {};
+    getData();
+  }, []);
 
-    const { items, stock } = results.reduce(
-      (acc: any, currentValue: any) => {
-        acc.stock += currentValue["Qtde Estoque"];
-
-        tempItems[currentValue.Products_Code] =
-          1 + (tempItems[currentValue.Products_Code] || 0);
-
-        acc.items = Object.values(tempItems).reduce(
-          (a: any, b: any) => a + b,
-          0
-        );
-
-        return acc;
-      },
-      {
-        items: 0,
-        stock: 0,
-      }
-    );
-
-    return { items, stock };
-  }
-
-  const { stock, items } = await GetAvailableStockAndItems();
+  const { stock, items } = availableStockAndItems;
 
   return (
     <div className="w-full flex gap-8 justify-start">

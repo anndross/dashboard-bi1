@@ -9,7 +9,11 @@ export function SignInForm() {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Olá, entre no seu admin!
           </h1>
-          <form className="space-y-4 md:space-y-6" action={AuthActions.login}>
+          <form
+            className="space-y-4 md:space-y-6"
+            action={AuthActions.login}
+            method="POST"
+          >
             <div>
               <label
                 htmlFor="email"

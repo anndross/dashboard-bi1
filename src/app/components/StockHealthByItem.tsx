@@ -1,46 +1,27 @@
+"use client";
 import { TableHero } from "@/components/Table";
+import { useEffect, useState } from "react";
 
-async function getStockHealth() {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+type stocksHealthType = { headerCells: []; rowsCells: [] };
 
-  const raw = JSON.stringify({
-    procedure: "p.SM_Dash_Stocks",
-    params: {
-      CalendarYear: "2024",
-      User: "5",
-    },
+export function StockHealthByItem() {
+  const [stocksSubsidiary, setStocksSubsidiary] = useState<stocksHealthType>({
+    headerCells: [],
+    rowsCells: [],
   });
 
-  const requestOptions: RequestInit = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-    cache: "no-store",
-  };
+  useEffect(() => {
+    async function getData() {
+      const res: any = await fetch("http://localhost:3000/api/stocks-health");
+      const { data } = await res.json();
 
-  const { results } = await fetch(
-    "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-    requestOptions
-  ).then((data) => data.json());
+      setStocksSubsidiary(data);
+    }
 
-  /**
-   * Será utilizado como exemplar das chaves do header da tabela
-   */
-  const [prototype] = results;
+    getData();
+  }, []);
 
-  const headerCells = Object.keys(prototype);
-
-  const rowsCells = results.map((product: typeof prototype) =>
-    Object.values(product)
-  );
-
-  return { headerCells, rowsCells };
-}
-
-export async function StockHealthByItem() {
-  const { headerCells, rowsCells } = await getStockHealth();
+  const { headerCells, rowsCells } = stocksSubsidiary;
 
   return (
     <TableHero

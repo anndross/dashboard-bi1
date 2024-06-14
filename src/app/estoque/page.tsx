@@ -1,36 +1,34 @@
-import { Filters } from "@/components/Filters";
 import { Loading } from "@/components/Loading";
-import { Suspense } from "react";
-import { StockAndSales } from "../components/StockAndSales";
+import { Suspense, useState } from "react";
 import { StockBySubsidiary } from "../components/StockBySubsidiary";
 import { StockByCategory } from "../components/StockByCategory";
 import { StockHealthByItem } from "../components/StockHealthByItem";
 import { Orders } from "../components/Orders";
-import { Badge } from "@/components/Badge";
+import { FiltersOptions } from "../components/FiltersOptions";
+import { Filters } from "@/components/Filters";
+import { StockAndSales } from "../components/StockAndSales";
+import FiltersContext from "./context";
+import { AvailableStockAndItems } from "../components/AvailableStockAndItems";
 
-export default async function HomePage() {
+export default function StockPage() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
   return (
     <>
-      <div className="shadow-sm z-20 w-full h-12 fixed top-20 bg-white px-10 flex items-center justify-end">
+      <div className="max-md:top-[100vh] shadow-sm z-20 w-full h-12 fixed top-20 bg-white px-10 flex items-center justify-end">
         <Filters.Root>
           <Filters.Label>filtrar por:</Filters.Label>
 
-          <Filters.Date />
-          <Filters.Product />
-          <Filters.Area />
-          <Filters.Category />
+          <Filters.DatePicker />
+          <FiltersOptions />
         </Filters.Root>
       </div>
 
       <main className="grid lg:grid-cols-2 p-6 gap-3 grid-cols-1">
         <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex col-span-full items-center flex-col justify-start">
-          <Suspense fallback={<Loading />}>
-            <StockAndSales />
-          </Suspense>
+          <AvailableStockAndItems />
+          <StockAndSales />
         </div>
-
         <div className="h-96 w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
           <div className="w-full flex gap-8 justify-start">
             <div className="flex flex-col gap-2">

@@ -16,8 +16,6 @@ interface SelectHeroProps {
 
 type SelectProps = Omit<SelectHeroProps, "variant">;
 
-
-
 function SelectNormal({ options }: SelectProps) {
   return (
     <Field>

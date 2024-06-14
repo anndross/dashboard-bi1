@@ -1,59 +1,26 @@
+"use client";
 import { BarChartHero } from "@/components/BarChart";
+import { useEffect, useState } from "react";
 
-async function GetStockByCategory() {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+export function StockByCategory() {
+  const [stocksCategory, setStocksCategory] = useState([]);
 
-  const raw = JSON.stringify({
-    procedure: "p.SM_Dash_Stocks",
-    params: {
-      CalendarYear: "2024",
-      User: "5",
-    },
-  });
+  useEffect(() => {
+    async function getData() {
+      const res: any = await fetch("http://localhost:3000/api/stocks-category");
+      const { data } = await res.json();
 
-  const requestOptions: RequestInit = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-    cache: "no-store",
-  };
+      setStocksCategory(data);
+    }
 
-  const { results } = await fetch(
-    "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-    requestOptions
-  ).then((data) => data.json());
-
-  const stockByCategory = (() => {
-    const allCategoriesWithStock = results.reduce(
-      (acc: any, currentValue: any) => {
-        acc[currentValue["Categoria"]] =
-          currentValue["Qtde Estoque"] +
-          (acc[currentValue["Últ. Pedido"]] || 0);
-
-        return acc;
-      },
-      {}
-    );
-
-    const mappedData = Object.entries(allCategoriesWithStock).map((e) => {
-      return {
-        category: e[0] as string,
-        Estoque: e[1] as number,
-      };
-    });
-
-    return mappedData;
-  })();
-
-  return stockByCategory;
-}
-
-export async function StockByCategory() {
-  const data = await GetStockByCategory();
+    getData();
+  }, []);
 
   return (
-      <BarChartHero index="category" data={data} categories={["Estoque"]} />
+    <BarChartHero
+      index="category"
+      data={stocksCategory}
+      categories={["Estoque"]}
+    />
   );
 }
