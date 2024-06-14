@@ -5,5 +5,10 @@ const nextConfig = {
     loader: "akamai",
     path: "/",
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 export default nextConfig;

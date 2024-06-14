@@ -15,7 +15,6 @@ export async function GET() {
     headers: myHeaders,
     body: raw,
     redirect: "follow",
-    cache: "no-store",
   };
 
   const res = await fetch(

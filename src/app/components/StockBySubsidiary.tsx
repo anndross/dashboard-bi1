@@ -11,9 +11,7 @@ export function StockBySubsidiary() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "http://localhost:3000/api/stocks-subsidiary"
-      );
+      const res: any = await fetch("/api/stocks-subsidiary");
       const { data } = await res.json();
 
       setStocksSubsidiary(data);

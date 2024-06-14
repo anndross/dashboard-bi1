@@ -8,9 +8,7 @@ export function AvailableStockAndItems() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "http://localhost:3000/api/avaliable-stock-and-items"
-      );
+      const res: any = await fetch("/api/avaliable-stock-and-items");
       const { data } = await res.json();
 
       setAvailableStockAndItems(data);

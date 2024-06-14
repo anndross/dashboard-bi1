@@ -12,7 +12,7 @@ export function Orders() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch("http://localhost:3000/api/orders");
+      const res: any = await fetch("/api/orders");
       const { data } = await res.json();
 
       setOrders(data);

@@ -7,7 +7,7 @@ export function StockByCategory() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch("http://localhost:3000/api/stocks-category");
+      const res: any = await fetch("/api/stocks-category");
       const { data } = await res.json();
 
       setStocksCategory(data);

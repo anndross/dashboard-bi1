@@ -12,7 +12,7 @@ export function StockHealthByItem() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch("http://localhost:3000/api/stocks-health");
+      const res: any = await fetch("/api/stocks-health");
       const { data } = await res.json();
 
       setStocksSubsidiary(data);

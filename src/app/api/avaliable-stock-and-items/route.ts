@@ -15,7 +15,6 @@
       headers: headers,
       body: raw,
       redirect: "follow",
-      cache: "no-store",
     };
 
     const { results } = await fetch(
