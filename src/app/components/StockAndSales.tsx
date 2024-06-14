@@ -9,7 +9,9 @@ export function StockAndSales() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch("/api/stocks-mov");
+      const res: any = await fetch(
+        "https://dashboard-bi1.vercel.app/api/stocks-mov"
+      );
       const { data } = await res.json();
 
       setSalesQuantityAndStocksQuantity(data);

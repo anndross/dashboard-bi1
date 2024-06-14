@@ -12,7 +12,9 @@ export function Orders() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch("/api/orders");
+      const res: any = await fetch(
+        "https://dashboard-bi1.vercel.app/api/orders"
+      );
       const { data } = await res.json();
 
       setOrders(data);

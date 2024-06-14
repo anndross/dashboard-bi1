@@ -11,7 +11,9 @@ export function StockBySubsidiary() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch("/api/stocks-subsidiary");
+      const res: any = await fetch(
+        "https://dashboard-bi1.vercel.app/api/stocks-subsidiary"
+      );
       const { data } = await res.json();
 
       setStocksSubsidiary(data);
