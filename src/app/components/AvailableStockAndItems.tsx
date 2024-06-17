@@ -1,23 +1,32 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import FiltersContext from "../estoque/context";
 
 type availableStocksType = { stock: number; items: number };
 export function AvailableStockAndItems() {
+  const { filters } = useContext(FiltersContext);
+
   const [availableStockAndItems, setAvailableStockAndItems] =
     useState<availableStocksType>({ stock: 0, items: 0 });
 
   useEffect(() => {
     async function getData() {
       const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/avaliable-stock-and-items"
+        "http://localhost:3000/api/avaliable-stock-and-items",
+        {
+          method: "POST",
+          body: JSON.stringify(filters),
+        }
       );
-      const { data } = await res.json();
+      const { data, error } = await res.json();
 
-      setAvailableStockAndItems(data);
+      if (data) {
+        setAvailableStockAndItems(data);
+      }
     }
 
     getData();
-  }, []);
+  }, [filters]);
 
   const { stock, items } = availableStockAndItems;
 

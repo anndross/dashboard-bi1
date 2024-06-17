@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { User } from "./User";
 
 interface HeaderProps {
   notLogged?: boolean;
@@ -32,12 +33,7 @@ export function Header({ notLogged = false }: HeaderProps) {
               relatórios
             </Link>
           </nav>
-
-          <div className="h-14 w-14 rounded-full bg-slate-300 text-center p-1 flex items-center justify-center">
-            <p className="text-[10px] font-bold text-blue-900 uppercase text-center">
-              Campari group
-            </p>
-          </div>
+          <User />
         </>
       )}
     </header>

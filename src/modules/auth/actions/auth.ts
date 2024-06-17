@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
-import { AuthService } from "../services/auth-service";
+import { AuthService } from "../services/auth";
+import { cookies } from "next/headers";
+
 
 async function login(formData: FormData) {
   'use server';
@@ -40,6 +42,15 @@ async function login(formData: FormData) {
   }   
 }
 
+async function logout() {
+  'use server'
+
+  cookies().delete('session')
+
+  redirect('/login')
+}
+
 export const AuthActions = {
-  login
+  login,
+  logout
 }

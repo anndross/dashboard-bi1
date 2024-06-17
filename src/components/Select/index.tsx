@@ -1,17 +1,24 @@
+"use client";
 import { Field, Select } from "@headlessui/react";
 import {
   MultiSelect,
   MultiSelectItem,
+  MultiSelectProps,
   SearchSelect,
   SearchSelectItem,
+  SearchSelectProps,
   // Select,
   SelectItem,
 } from "@tremor/react";
 import clsx from "clsx";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 interface SelectHeroProps {
   variant: "select" | "search" | "multi";
   options: { value: string; label: string }[];
+  defaultValue?: string | string[];
+  onValueChange?: () => void;
+  value?: string | string[];
 }
 
 type SelectProps = Omit<SelectHeroProps, "variant">;
@@ -41,17 +48,47 @@ function SelectNormal({ options }: SelectProps) {
   );
 }
 
-function SelectSearch({ options }: SelectProps) {
-  return (
-    <SearchSelect defaultValue={options[0].value}>
-      {options.map((e) => (
-        <SearchSelectItem key={e.value} value={e.value}>
-          {e.label}
-        </SearchSelectItem>
-      ))}
-    </SearchSelect>
-  );
+interface SelectSearchProps extends Omit<SearchSelectProps, "children"> {
+  options: {
+    value: string;
+    label: string;
+    DisplayName?: string;
+  }[];
 }
+
+export const SelectSearch = forwardRef<HTMLDivElement, SelectSearchProps>(
+  (props, ref) => {
+    // const [paginatedOptions, setPaginatedOptions] = useState(
+    //   props.options.slice(0, 10)
+    // );
+
+    // const sentinelRef = useRef<HTMLDivElement>(null);
+
+    // console.log(`sentinelRef`, sentinelRef, props.options, paginatedOptions);
+
+    // useEffect(() => {
+    //   const observer = new IntersectionObserver((entries) => {
+    //     console.log(entries);
+    //   });
+
+    //   if (sentinelRef.current) observer.observe(sentinelRef.current);
+    // }, [sentinelRef]);
+
+    return (
+      <div ref={ref} {...props}>
+        <SearchSelect {...props}>
+          {props.options.map((e, i) => (
+            <SearchSelectItem key={e.value} value={e.value}>
+              {e.label}
+            </SearchSelectItem>
+          ))}
+        </SearchSelect>
+      </div>
+    );
+  }
+);
+
+SelectSearch.displayName = "SelectSearch";
 
 function SelectMulti({ options }: SelectProps) {
   return (

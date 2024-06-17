@@ -66,8 +66,8 @@ export function TableHero({
     <Table className="relative w-full h-full overflow-auto">
       <TableHead>
         <TableRow>
-          {headerCells.map((cell) => (
-            <TableHeaderCell className="sticky top-0 z-10 bg-white" key={cell}>
+          {headerCells.map((cell, index) => (
+            <TableHeaderCell className="sticky top-0 z-10 bg-white" key={index}>
               {cell}
             </TableHeaderCell>
           ))}
@@ -77,10 +77,10 @@ export function TableHero({
       <TableBody>
         {rowsCells.map((cells, index) => (
           <TableRow key={index}>
-            {cells.map((cell) => (
+            {cells.map((cell, index) => (
               <TableCell
                 className={`max-w-96 ${heightCells} text-wrap`}
-                key={cell}
+                key={index}
               >
                 {renderRelativeTag(cell)}
               </TableCell>

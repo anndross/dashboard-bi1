@@ -1,5 +1,6 @@
+"use client";
 import { Loading } from "@/components/Loading";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { StockBySubsidiary } from "../components/StockBySubsidiary";
 import { StockByCategory } from "../components/StockByCategory";
 import { StockHealthByItem } from "../components/StockHealthByItem";
@@ -12,9 +13,30 @@ import { AvailableStockAndItems } from "../components/AvailableStockAndItems";
 
 export default function StockPage() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  const [filters, setFilters] = useState({});
+
+  useEffect(() => {
+    function persistFiltersOnReload() {
+      const storageFilters = localStorage.getItem("filters");
+
+      if (storageFilters) {
+        setFilters(JSON.parse(storageFilters));
+      }
+    }
+
+    persistFiltersOnReload();
+  }, []);
+
+  useEffect(() => {
+    function updateStorageFilters() {
+      localStorage.setItem("filters", JSON.stringify(filters));
+    }
+
+    updateStorageFilters();
+  }, [filters]);
 
   return (
-    <>
+    <FiltersContext.Provider value={{ filters, setFilters }}>
       <div className="max-md:top-[100vh] shadow-sm z-20 w-full h-12 fixed top-20 bg-white px-10 flex items-center justify-end">
         <Filters.Root>
           <Filters.Label>filtrar por:</Filters.Label>
@@ -27,7 +49,10 @@ export default function StockPage() {
       <main className="grid lg:grid-cols-2 p-6 gap-3 grid-cols-1">
         <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex col-span-full items-center flex-col justify-start">
           <AvailableStockAndItems />
-          <StockAndSales />
+
+          <Suspense fallback={<Loading />}>
+            <StockAndSales />
+          </Suspense>
         </div>
         <div className="h-96 w-full bg-white p-4 rounded-md border border-gray-200 flex items-center flex-col justify-start">
           <div className="w-full flex gap-8 justify-start">
@@ -82,6 +107,6 @@ export default function StockPage() {
           </Suspense>
         </div>
       </main>
-    </>
+    </FiltersContext.Provider>
   );
 }

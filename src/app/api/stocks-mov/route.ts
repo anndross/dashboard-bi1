@@ -1,7 +1,9 @@
 import { format } from "date-fns";
 
-export async function GET() {
+export async function POST(request: Request) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+  const body = await request.json()
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
@@ -11,8 +13,11 @@ export async function GET() {
     params: {
       CalendarYear: "2024",
       User: "5",
+      ...body
     },
   });
+
+  console.log(`raw`, raw)
 
   const requestOptions: RequestInit = {
     method: "POST",
@@ -21,43 +26,47 @@ export async function GET() {
     redirect: "follow",
   };
 
-  const res = await fetch(
-    "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-    requestOptions
-  ).then((data) => data.json());
+  try {
+    const res = await fetch(
+      "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
+      requestOptions
+    ).then((data) => data.json());
 
-  const { results } = res;
+    const { results } = res;
 
-  const data = (() => {
-    const salesQuantityAndStocksQuantityData = results.reduce(
-      (acc: any, currentValue: any) => {
-        acc[currentValue.Calendar_Date] = {
-          "Quantidade em estoque":
-            currentValue.Stocks_Quantity +
-            (acc[currentValue.Calendar_Date]?.["Quantidade em estoque"] || 0),
-          "Quantidade de vendas":
-            currentValue.QuantitySalesDay +
-            (acc[currentValue.Calendar_Date]?.["Quantidade de vendas"] || 0),
+    const data = (() => {
+      const salesQuantityAndStocksQuantityData = results.reduce(
+        (acc: any, currentValue: any) => {
+          acc[currentValue.Calendar_Date] = {
+            "Quantidade em estoque":
+              currentValue.Stocks_Quantity +
+              (acc[currentValue.Calendar_Date]?.["Quantidade em estoque"] || 0),
+            "Quantidade de vendas":
+              currentValue.QuantitySalesDay +
+              (acc[currentValue.Calendar_Date]?.["Quantidade de vendas"] || 0),
+          };
+
+          return acc;
+        },
+        {}
+      );
+
+      const salesQuantityAndStocksQuantityEntries = Object.entries(
+        salesQuantityAndStocksQuantityData
+      );
+
+      const mappedData = salesQuantityAndStocksQuantityEntries.map((e: any) => {
+        return {
+          date: format(new Date(e[0]), "dd/MM/yyyy"),
+          ...e[1],
         };
+      });
 
-        return acc;
-      },
-      {}
-    );
+      return mappedData;
+    })();
 
-    const salesQuantityAndStocksQuantityEntries = Object.entries(
-      salesQuantityAndStocksQuantityData
-    );
-
-    const mappedData = salesQuantityAndStocksQuantityEntries.map((e: any) => {
-      return {
-        date: format(new Date(e[0]), "dd/MM/yyyy"),
-        ...e[1],
-      };
-    });
-
-    return mappedData;
-  })();
-
-  return Response.json({ data })
+    return Response.json({ data })
+  } catch (err) {
+    return Response.json({ error: `something went wrong: ${err}` })
+  }
 }

@@ -20,10 +20,13 @@ async function createSessionToken(payload = {}) {
     .setExpirationTime('1d')
     .sign(secret)
   
-  const {exp} = await openSessionToken(session)
+  const { exp } = await openSessionToken(session)
+
+  // Verifique o tipo de exp para evitar erros
+  const expirationDate = exp ? new Date(exp * 1000) : undefined
 
   cookies().set('session', session, {
-    expires: exp as number * 1000,
+    expires: expirationDate,
     path: '/',
   })
 }
@@ -32,12 +35,12 @@ async function createSessionToken(payload = {}) {
 async function isSessionValid() {
   const sessionCookie = cookies().get('session')
 
-  if(sessionCookie) {
+  if (sessionCookie) {
     const { value } = sessionCookie
     const { exp } = await openSessionToken(value)
     const currentDate = new Date().getTime()
 
-    return ((exp as number) * 1000) > currentDate
+    return (exp as number) * 1000 > currentDate
   }
 
   return false

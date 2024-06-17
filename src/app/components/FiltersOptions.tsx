@@ -1,72 +1,55 @@
+"use client";
 import { Filters } from "@/components/Filters";
+import { useContext, useEffect, useRef, useState } from "react";
+import FiltersContext from "../estoque/context";
+import { SelectHero, SelectSearch } from "@/components/Select";
 
-export async function FiltersOptions() {
-  async function GetFiltersOptions() {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
+export function FiltersOptions() {
+  const { filters, setFilters } = useContext(FiltersContext);
 
-    const raw = JSON.stringify({
-      procedure: "[p].[p_Filters]",
-      params: {
-        User: "5",
-      },
-    });
+  const [optionsArray, setOptionsArray] = useState([]);
 
-    const requestOptions: RequestInit = {
-      method: "POST",
-      headers: headers,
-      body: raw,
-      redirect: "follow",
-      cache: "no-store",
-    };
+  useEffect(() => {
+    async function getData() {
+      const res: any = await fetch("http://localhost:3000/api/filters-options");
+      const { data, error } = await res.json();
 
-    const res = await fetch(
-      "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-      requestOptions
-    ).then((data) => data.json());
+      if (data) {
+        setOptionsArray(data);
+      } 
+    }
 
-    const { results } = res;
-
-    let optionClusterIndex = -1;
-
-    const optionsArray = results.reduce((acc: any, currentValue: any) => {
-      const value = currentValue.Value.length
-        ? currentValue.Value
-        : "Sem valor";
-
-      const mappedCurrentValue = {
-        ...currentValue,
-        value: value,
-        label: value,
-      };
-
-      if (
-        currentValue.Filter !==
-        acc[optionClusterIndex]?.[acc[optionClusterIndex]?.length - 1]?.Filter
-      ) {
-        acc.push([mappedCurrentValue]);
-
-        optionClusterIndex++;
-
-        return acc;
-      } else {
-        acc[optionClusterIndex].push(mappedCurrentValue);
-
-        return acc;
-      }
-    }, []);
-
-    return optionsArray;
-  }
-
-  const optionsArray = await GetFiltersOptions();
+    getData();
+  }, []);
 
   return (
     <>
-      {/* TODO: receber outro valor na key que não seja o index */}
-      {optionsArray.map((options: any, index: number) => {
-        return <Filters.Select key={index} options={options} />;
-      })}
+      {optionsArray.map((options: any, index: number) => (
+        <SelectSearch
+          options={options}
+          onValueChange={(selectedOption) => {
+            if (selectedOption.length) {
+              const mappedSelectedOption = {
+                [options[0].Column]: selectedOption,
+              };
+
+              setFilters((prev: any) => ({
+                ...prev,
+                ...mappedSelectedOption,
+              }));
+            } else {
+              const filtersWithoutColumn: any = filters;
+
+              delete filtersWithoutColumn[options[0].Column];
+
+              setFilters(filtersWithoutColumn);
+            }
+          }}
+          key={index}
+          placeholder={options[0].DisplayName}
+          defaultValue={localStorage.getItem(options[0].Column) ?? ""}
+        />
+      ))}
     </>
   );
 }

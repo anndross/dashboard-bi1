@@ -2,7 +2,7 @@
 import { createContext } from "react";
 
 const FiltersContext = createContext({
-  filters: [],
+  filters: {},
   setFilters: (filters: any) => {},
 });
 

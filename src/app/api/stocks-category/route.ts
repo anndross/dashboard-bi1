@@ -1,5 +1,7 @@
-export async function GET() {
+export async function POST(request: Request) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+  const body = await request.json()
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
@@ -9,6 +11,7 @@ export async function GET() {
     params: {
       CalendarYear: "2024",
       User: "5",
+      ...body
     },
   });
 
@@ -19,34 +22,39 @@ export async function GET() {
     redirect: "follow",
   };
 
-  const { results } = await fetch(
-    "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
-    requestOptions
-  ).then((data) => data.json());
+  try {
+    const { results } = await fetch(
+      "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
+      requestOptions
+    ).then((data) => data.json());
 
-  const data = (() => {
-    const allCategoriesWithStock = results.reduce(
-      (acc: any, currentValue: any) => {
-        acc[currentValue["Categoria"]] =
-          currentValue["Qtde Estoque"] +
-          (acc[currentValue["Últ. Pedido"]] || 0);
+    const data = (() => {
+      const allCategoriesWithStock = results.reduce(
+        (acc: any, currentValue: any) => {
+          acc[currentValue["Categoria"]] =
+            currentValue["Qtde Estoque"] +
+            (acc[currentValue["Últ. Pedido"]] || 0);
 
-        return acc;
-      },
-      {}
-    );
+          return acc;
+        },
+        {}
+      );
 
-    const mappedData = Object.entries(allCategoriesWithStock).map((e) => {
-      return {
-        category: e[0] as string,
-        Estoque: e[1] as number,
-      };
-    });
+      const mappedData = Object.entries(allCategoriesWithStock).map((e) => {
+        return {
+          category: e[0] as string,
+          Estoque: e[1] as number,
+        };
+      });
 
-    return mappedData;
-  })();
+      return mappedData;
+    })();
 
 
 
-  return Response.json({ data });
+    return Response.json({ data });
+
+  } catch(err) {
+    return Response.json({ error: `something went wrong: ${err}` })
+  }
 }

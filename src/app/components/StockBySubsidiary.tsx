@@ -1,26 +1,35 @@
 "use client";
 import { DonutChartHero } from "@/components/DonutChart";
 import { Legend } from "@/components/Legend";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import FiltersContext from "../estoque/context";
 
 type stocksSubsidiaryType = { data: []; categories: [] };
 
 export function StockBySubsidiary() {
+  const { filters } = useContext(FiltersContext);
+
   const [stocksSubsidiary, setStocksSubsidiary] =
     useState<stocksSubsidiaryType>({ data: [], categories: [] });
 
   useEffect(() => {
     async function getData() {
       const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/stocks-subsidiary"
+        "http://localhost:3000/api/stocks-subsidiary",
+        {
+          method: "POST",
+          body: JSON.stringify(filters),
+        }
       );
-      const { data } = await res.json();
+      const { data, error } = await res.json();
 
-      setStocksSubsidiary(data);
+      if (data) {
+        setStocksSubsidiary(data);
+      }
     }
 
     getData();
-  }, []);
+  }, [filters]);
 
   const { data, categories } = stocksSubsidiary;
 

@@ -4,7 +4,7 @@ export function Legend({ colors, categories }: any) {
       {categories.map((e: any, index: number) => {
         return (
           <div
-            key={e}
+            key={index}
             className="flex items-center justify-start gap-2 text-left"
           >
             <div

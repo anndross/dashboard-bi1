@@ -1,10 +1,13 @@
 "use client";
 import { TableHero } from "@/components/Table";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import FiltersContext from "../estoque/context";
 
 type ordersType = { headerCells: []; rowsCells: [] };
 
 export function Orders() {
+  const { filters } = useContext(FiltersContext);
+
   const [orders, setOrders] = useState<ordersType>({
     headerCells: [],
     rowsCells: [],
@@ -12,16 +15,19 @@ export function Orders() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/orders"
-      );
-      const { data } = await res.json();
+      const res: any = await fetch("http://localhost:3000/api/orders", {
+        method: "POST",
+        body: JSON.stringify(filters),
+      });
+      const { data, error } = await res.json();
 
-      setOrders(data);
+      if (data) {
+        setOrders(data);
+      }
     }
 
     getData();
-  }, []);
+  }, [filters]);
 
   const { headerCells, rowsCells } = orders;
 

@@ -1,24 +1,33 @@
 "use client";
 import { AreaChartHero } from "@/components/AreaChart";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Loading } from "@/components/Loading";
+import FiltersContext from "../estoque/context";
 
 export function StockAndSales() {
+  const { filters } = useContext(FiltersContext);
+  console.log(`filters`, filters);
+
   const [salesQuantityAndStocksQuantity, setSalesQuantityAndStocksQuantity] =
     useState([]);
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/stocks-mov"
-      );
-      const { data } = await res.json();
+        const res: any = await fetch("http://localhost:3000/api/stocks-mov", {
+          method: "POST",
+          body: JSON.stringify(filters),
+        });
+        const { data, error } = await res.json();
 
-      setSalesQuantityAndStocksQuantity(data);
+        if (data) {
+          setSalesQuantityAndStocksQuantity(data);
+        }
     }
 
     getData();
-  }, []);
+  }, [filters]);
+
+  console.log(`salesQuantityAndStocksQuantity`, salesQuantityAndStocksQuantity);
 
   return (
     <>

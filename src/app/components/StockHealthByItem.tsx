@@ -1,10 +1,13 @@
 "use client";
 import { TableHero } from "@/components/Table";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import FiltersContext from "../estoque/context";
 
 type stocksHealthType = { headerCells: []; rowsCells: [] };
 
 export function StockHealthByItem() {
+  const { filters } = useContext(FiltersContext);
+
   const [stocksSubsidiary, setStocksSubsidiary] = useState<stocksHealthType>({
     headerCells: [],
     rowsCells: [],
@@ -12,16 +15,19 @@ export function StockHealthByItem() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/stocks-health"
-      );
-      const { data } = await res.json();
+      const res: any = await fetch("http://localhost:3000/api/stocks-health", {
+        method: "POST",
+        body: JSON.stringify(filters),
+      });
+      const { data, error } = await res.json();
 
-      setStocksSubsidiary(data);
+      if (data) {
+        setStocksSubsidiary(data);
+      } 
     }
 
     getData();
-  }, []);
+  }, [filters]);
 
   const { headerCells, rowsCells } = stocksSubsidiary;
 
