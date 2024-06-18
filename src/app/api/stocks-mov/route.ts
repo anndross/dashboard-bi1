@@ -1,6 +1,6 @@
 import { format } from "date-fns";
-import { getUserPayload } from "../user-data/route";
 import { UserData } from "@/components/Header/User";
+import { getUserPayload } from "../utils/getSessionPayload";
 
 export async function POST(request: Request) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";

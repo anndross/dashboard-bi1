@@ -1,4 +1,4 @@
-import { getUserPayload } from "../user-data/route";
+import { getUserPayload } from "../utils/getSessionPayload";
 
 export async function POST(request: Request) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";

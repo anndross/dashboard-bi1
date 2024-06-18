@@ -1,4 +1,4 @@
-import { getUserPayload } from "../user-data/route";
+import { getUserPayload } from "../utils/getSessionPayload";
 
 export async function GET() {
 
