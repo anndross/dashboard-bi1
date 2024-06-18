@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
-  const response = await fetch("http://localhost:3000/api/user-data");
+  const response = await fetch("https://dashboard-bi1.vercel.app/api/user-data");
 
   const userData = await response.json();
 
