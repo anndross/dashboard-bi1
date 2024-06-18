@@ -11,17 +11,21 @@ export function AvailableStockAndItems() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/avaliable-stock-and-items",
-        {
-          method: "POST",
-          body: JSON.stringify(filters),
-        }
-      );
-      const { data, error } = await res.json();
+      try {
+        const res: any = await fetch(
+          "https://dashboard-bi1.vercel.app/api/avaliable-stock-and-items",
+          {
+            method: "POST",
+            body: JSON.stringify(filters),
+          }
+        );
+        const { data, error } = await res.json();
 
-      if (data) {
-        setAvailableStockAndItems(data);
+        if (data) {
+          setAvailableStockAndItems(data);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 

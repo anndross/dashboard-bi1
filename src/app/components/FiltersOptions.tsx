@@ -11,13 +11,17 @@ export function FiltersOptions() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/filters-options"
-      );
-      const { data, error } = await res.json();
+      try {
+        const res: any = await fetch(
+          "https://dashboard-bi1.vercel.app/api/filters-options"
+        );
+        const { data, error } = await res.json();
 
-      if (data) {
-        setOptionsArray(data);
+        if (data) {
+          setOptionsArray(data);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 

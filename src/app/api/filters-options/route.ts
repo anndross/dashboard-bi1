@@ -2,10 +2,14 @@ export async function GET() {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
+  const response = await fetch("https://dashboard-bi1.vercel.app/api/user-data");
+
+  const { data } = await response.json();
+
   const raw = JSON.stringify({
     procedure: "[p].[p_Filters]",
     params: {
-      User: "5",
+      User: data.user,
     },
   });
 

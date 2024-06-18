@@ -15,17 +15,21 @@ export function Orders() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/orders",
-        {
-          method: "POST",
-          body: JSON.stringify(filters),
-        }
-      );
-      const { data, error } = await res.json();
+      try {
+        const res: any = await fetch(
+          "https://dashboard-bi1.vercel.app/api/orders",
+          {
+            method: "POST",
+            body: JSON.stringify(filters),
+          }
+        );
+        const { data, error } = await res.json();
 
-      if (data) {
-        setOrders(data);
+        if (data) {
+          setOrders(data);
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
 

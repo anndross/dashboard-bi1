@@ -15,17 +15,21 @@ export function StockHealthByItem() {
 
   useEffect(() => {
     async function getData() {
-      const res: any = await fetch(
-        "https://dashboard-bi1.vercel.app/api/stocks-health",
-        {
-          method: "POST",
-          body: JSON.stringify(filters),
-        }
-      );
-      const { data, error } = await res.json();
+      try {
+        const res: any = await fetch(
+          "https://dashboard-bi1.vercel.app/api/stocks-health",
+          {
+            method: "POST",
+            body: JSON.stringify(filters),
+          }
+        );
+        const { data, error } = await res.json();
 
-      if (data) {
-        setStocksSubsidiary(data);
+        if (data) {
+          setStocksSubsidiary(data);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 
