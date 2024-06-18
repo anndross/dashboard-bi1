@@ -12,7 +12,7 @@ export function StockByCategory() {
     async function getData() {
       try {
         const res: any = await fetch(
-          "https://dashboard-bi1.vercel.app/api/stocks-category",
+          "http://localhost:3000/api/stocks-category",
           {
             method: "POST",
             body: JSON.stringify(filters),

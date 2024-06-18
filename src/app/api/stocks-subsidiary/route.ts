@@ -1,20 +1,21 @@
 export async function POST(request: Request) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+  try {
   const body = await request.json()
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
-  const response = await fetch("https://dashboard-bi1.vercel.app/api/user-data");
+  const response = await fetch("http://localhost:3000/api/user-data");
 
-  const { data } = await response.json();
+  const userData = await response.json();
 
   const raw = JSON.stringify({
     procedure: "p.SM_Dash_Stocks",
     params: {
       CalendarYear: "2024",
-      User: data.user,
+      User: userData.data.user,
       ...body
     },
   });
@@ -26,7 +27,6 @@ export async function POST(request: Request) {
     redirect: "follow",
   };
 
-  try {
     const res = await fetch(
       "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
       requestOptions

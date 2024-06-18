@@ -1,17 +1,25 @@
 export async function GET() {
+  
+  try {
+  
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
-  const response = await fetch("https://dashboard-bi1.vercel.app/api/user-data");
 
-  const { data } = await response.json();
+
+  const response = await fetch("http://localhost:3000/api/user-data");
+
+  const userData = await response.json();
+
+  console.log('results user data', userData)
 
   const raw = JSON.stringify({
     procedure: "[p].[p_Filters]",
     params: {
-      User: data.user,
+      User: userData.data.user,
     },
   });
+  console.log('raw fitlers', raw)
 
   const requestOptions: RequestInit = {
     method: "POST",
@@ -21,7 +29,6 @@ export async function GET() {
     cache: "no-store",
   };
 
-  try {
 
 
   const res = await fetch(
@@ -30,6 +37,8 @@ export async function GET() {
   ).then((data) => data.json());
 
   const { results } = res;
+
+  console.log('results fitlers', results)
 
   let optionClusterIndex = -1;
 
@@ -58,8 +67,12 @@ export async function GET() {
     }
   }, []);
 
+  console.log('data fitlers', data)
+
   return Response.json({ data });
   } catch(err) {
+    console.log('err fitlers', err)
+
     return Response.json({ error: `something went wrong: ${err}` });
 
   }
