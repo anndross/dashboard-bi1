@@ -1,36 +1,33 @@
 import { format } from "date-fns";
+import { getUserPayload } from "../user-data/route";
+import { UserData } from "@/components/Header/User";
 
 export async function POST(request: Request) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
   try {
+    const body = await request.json()
 
-  const body = await request.json()
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
 
-  const headers = new Headers();
-  headers.append("Content-Type", "application/json");
+    const user = await getUserPayload()
 
-  const response = await fetch("https://dashboard-bi1.vercel.app/api/user-data");
+    const raw = JSON.stringify({
+      procedure: "p.SM_Dash_Stocksmov",
+      params: {
+        CalendarYear: "2024",
+        User: user!.user,
+        ...body
+      },
+    });
 
-  const userData = await response.json();
-
-  const raw = JSON.stringify({
-    procedure: "p.SM_Dash_Stocksmov",
-    params: {
-      CalendarYear: "2024",
-      User: userData.data.user,
-      ...body
-    },
-  });
-
-  console.log('raw', raw)
-
-  const requestOptions: RequestInit = {
-    method: "POST",
-    headers: headers,
-    body: raw,
-    redirect: "follow",
-  };
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: headers,
+      body: raw,
+      redirect: "follow",
+    };
 
     const res = await fetch(
       "https://prd-api01.bi1analytics.com.br:5000/api/beta/procedure/exec",
@@ -70,8 +67,7 @@ export async function POST(request: Request) {
       return mappedData;
     })();
 
-  console.log('data', data)
-
+    console.log('data', data)
     return Response.json({ data })
   } catch (err) {
     return Response.json({ error: `something went wrong: ${err}` })

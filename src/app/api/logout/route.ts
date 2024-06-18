@@ -1,12 +1,9 @@
-import { AuthActions } from "@/modules/auth/actions/auth";
-import { redirect } from "next/navigation";
-
+import { cookies } from "next/headers";
 export async function GET() {
   try {
-    await AuthActions.logout()
-    
-    return Response.json({message: 'succesfull'})
+    cookies().delete('session')
+    return Response.json({ message: 'logout success' });
   } catch (error) {
-    return Response.json({error})
+    return Response.json({ error })
   }
 }

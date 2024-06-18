@@ -8,7 +8,7 @@ import {
 } from "@headlessui/react";
 import { useEffect, useState } from "react";
 
-interface UserData {
+export interface UserData {
   name: string;
   lastName: string;
   company: string;
@@ -80,12 +80,9 @@ export function User() {
                   className="mt-2 z-20 divide-y divide-white/5 rounded-xl bg-zinc-600 text-sm/6 [--anchor-gap:var(--spacing-5)]"
                 >
                   <div className="p-3">
-                    <a
-                      className="block rounded-lg py-2 px-3 transition hover:bg-white/5"
-                      href="#"
-                    >
+                    <div className="block rounded-lg py-2 px-3 transition hover:bg-white/5">
                       <LogoutButton />
-                    </a>
+                    </div>
                     <a
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/5"
                       href="#"

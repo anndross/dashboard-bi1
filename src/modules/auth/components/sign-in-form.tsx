@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { AuthActions } from "../actions/auth";
+import { loginAction } from "../actions/login";
 import { ButtonSubmit } from "./button-submit";
 
 export function SignInForm() {
@@ -12,7 +12,7 @@ export function SignInForm() {
           </h1>
           <form
             className="space-y-4 md:space-y-6"
-            action={AuthActions.login}
+            action={loginAction}
             method="POST"
           >
             <div>
