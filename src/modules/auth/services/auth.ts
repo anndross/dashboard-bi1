@@ -5,9 +5,13 @@ import { cookies } from 'next/headers'
 async function openSessionToken(token: string) {
   const secret = new TextEncoder().encode(process.env.AUTH_SECRET)
 
-  const { payload } = await jose.jwtVerify(token, secret)
+  try {
+    const { payload } = await jose.jwtVerify(token, secret);
 
-  return payload
+    return payload;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function createSessionToken(payload = {}) {

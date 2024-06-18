@@ -11,7 +11,7 @@ export function StockByCategory() {
   useEffect(() => {
     async function getData() {
       const res: any = await fetch(
-        "http://localhost:3000/api/stocks-category",
+        "https://dashboard-bi1.vercel.app/api/stocks-category",
         {
           method: "POST",
           body: JSON.stringify(filters),
@@ -21,7 +21,7 @@ export function StockByCategory() {
 
       if (data) {
         setStocksCategory(data);
-      } 
+      }
     }
 
     getData();

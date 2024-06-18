@@ -8,16 +8,20 @@ export async function POST(request: Request) {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
+  const response = await fetch("https://dashboard-bi1.vercel.app/api/user-data");
+
+  const { data } = await response.json();
+
   const raw = JSON.stringify({
     procedure: "p.SM_Dash_Stocksmov",
     params: {
       CalendarYear: "2024",
-      User: "5",
+      User: data.user,
       ...body
     },
   });
 
-  console.log(`raw`, raw)
+  console.log('raw', raw)
 
   const requestOptions: RequestInit = {
     method: "POST",
@@ -64,6 +68,8 @@ export async function POST(request: Request) {
 
       return mappedData;
     })();
+
+  console.log('data', data)
 
     return Response.json({ data })
   } catch (err) {

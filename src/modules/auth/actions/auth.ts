@@ -36,15 +36,19 @@ async function login(formData: FormData) {
   }
 
   if(res.ok) {
-    await AuthService.createSessionToken({ name: data.first_name, email: data.email })
+    await AuthService.createSessionToken({ 
+      name: data.user.first_name, 
+      lastName: data.user.last_name,
+      company: data.user.company,
+      user:  data.user.User,
+      email:  data.user.email
+    })
 
     redirect('/estoque')
   }   
 }
 
 async function logout() {
-  'use server'
-
   cookies().delete('session')
 
   redirect('/login')

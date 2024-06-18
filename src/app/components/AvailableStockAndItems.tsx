@@ -12,7 +12,7 @@ export function AvailableStockAndItems() {
   useEffect(() => {
     async function getData() {
       const res: any = await fetch(
-        "http://localhost:3000/api/avaliable-stock-and-items",
+        "https://dashboard-bi1.vercel.app/api/avaliable-stock-and-items",
         {
           method: "POST",
           body: JSON.stringify(filters),

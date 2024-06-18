@@ -15,7 +15,7 @@ export function StockBySubsidiary() {
   useEffect(() => {
     async function getData() {
       const res: any = await fetch(
-        "http://localhost:3000/api/stocks-subsidiary",
+        "https://dashboard-bi1.vercel.app/api/stocks-subsidiary",
         {
           method: "POST",
           body: JSON.stringify(filters),

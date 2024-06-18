@@ -6,11 +6,15 @@ export async function POST(request: Request) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
+  const response = await fetch("https://dashboard-bi1.vercel.app/api/user-data");
+
+  const { data } = await response.json();
+
   const raw = JSON.stringify({
     procedure: "p.SM_Dash_Stocks",
     params: {
       CalendarYear: "2024",
-      User: "5",
+      User: data.user,
       ...body
     },
   });
