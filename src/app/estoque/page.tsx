@@ -48,7 +48,7 @@ export default function StockPage() {
         </div>
         <main className="grid lg:grid-cols-2 p-6 gap-3 grid-cols-1">
           <div className="w-full bg-white p-4 rounded-md border border-gray-200 flex col-span-full items-center flex-col justify-start">
-            {/* <AvailableStockAndItems /> */}
+            <AvailableStockAndItems />
 
             <Suspense fallback={<Loading />}>
               <StockAndSales />
