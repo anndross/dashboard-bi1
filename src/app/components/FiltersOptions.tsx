@@ -13,7 +13,7 @@ export function FiltersOptions() {
     async function getData() {
       try {
         const res: any = await fetch(
-          "http://localhost:3000/api/filters-options"
+          "https://dashboard-bi1.vercel.app/api/filters-options"
         );
         const { data, error } = await res.json();
 

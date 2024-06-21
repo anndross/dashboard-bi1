@@ -17,7 +17,7 @@ export function StockHealthByItem() {
     async function getData() {
       try {
         const res: any = await fetch(
-          "http://localhost:3000/api/stocks-health",
+          "https://dashboard-bi1.vercel.app/api/stocks-health",
           {
             method: "POST",
             body: JSON.stringify(filters),
