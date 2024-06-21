@@ -67,7 +67,6 @@ export async function POST(request: Request) {
       return mappedData;
     })();
 
-    console.log('data', data)
     return Response.json({ data })
   } catch (err) {
     return Response.json({ error: `something went wrong: ${err}` })

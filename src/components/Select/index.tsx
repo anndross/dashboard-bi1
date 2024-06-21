@@ -58,9 +58,11 @@ interface SelectSearchProps extends Omit<SearchSelectProps, "children"> {
 
 export const SelectSearch = forwardRef<HTMLDivElement, SelectSearchProps>(
   (props, ref) => {
-    // const [paginatedOptions, setPaginatedOptions] = useState(
-    //   props.options.slice(0, 10)
-    // );
+    const [paginatedOptions, setPaginatedOptions] = useState(
+      props.options.slice(0, 10)
+    );
+
+    const sentinelRef = useRef<HTMLDivElement>(null);
 
     // const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -74,16 +76,26 @@ export const SelectSearch = forwardRef<HTMLDivElement, SelectSearchProps>(
     //   if (sentinelRef.current) observer.observe(sentinelRef.current);
     // }, [sentinelRef]);
 
+    useEffect(() => {
+      const observer = new IntersectionObserver((entries) => {
+        console.log(entries);
+      });
+
+      if (sentinelRef.current) {
+        observer.observe(sentinelRef.current);
+        console.log("sentinel", sentinelRef);
+      }
+    }, [sentinelRef]);
+
     return (
-      <div ref={ref} {...props}>
-        <SearchSelect {...props}>
-          {props.options.map((e, i) => (
-            <SearchSelectItem key={e.value} value={e.value}>
-              {e.label}
-            </SearchSelectItem>
-          ))}
-        </SearchSelect>
-      </div>
+      <SearchSelect {...props}>
+        {paginatedOptions.map((e, i) => (
+          <SearchSelectItem key={e.value} value={e.value}>
+            {e.label}
+            {i === paginatedOptions.length - 1 && <div ref={sentinelRef} />}
+          </SearchSelectItem>
+        ))}
+      </SearchSelect>
     );
   }
 );

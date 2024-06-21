@@ -6,7 +6,6 @@ import FiltersContext from "../estoque/context";
 
 export function StockAndSales() {
   const { filters } = useContext(FiltersContext);
-  console.log(`filters`, filters);
 
   const [salesQuantityAndStocksQuantity, setSalesQuantityAndStocksQuantity] =
     useState([]);
@@ -14,13 +13,10 @@ export function StockAndSales() {
   useEffect(() => {
     async function getData() {
       try {
-        const res: any = await fetch(
-          "https://dashboard-bi1.vercel.app/api/stocks-mov",
-          {
-            method: "POST",
-            body: JSON.stringify(filters),
-          }
-        );
+        const res: any = await fetch("http://localhost:3000/api/stocks-mov", {
+          method: "POST",
+          body: JSON.stringify(filters),
+        });
         const { data, error } = await res.json();
 
         if (data) {
@@ -33,8 +29,6 @@ export function StockAndSales() {
 
     getData();
   }, [filters]);
-
-  console.log(`salesQuantityAndStocksQuantity`, salesQuantityAndStocksQuantity);
 
   return (
     <>

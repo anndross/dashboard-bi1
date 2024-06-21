@@ -22,9 +22,7 @@ export function User() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(
-          "https://dashboard-bi1.vercel.app/api/user-data"
-        );
+        const response = await fetch("http://localhost:3000/api/user-data");
 
         const { data } = await response.json();
 
@@ -36,8 +34,6 @@ export function User() {
 
     fetchUserData();
   }, []);
-
-  console.log("userData", userData);
 
   return (
     <div className="m-2">

@@ -54,7 +54,9 @@ export async function POST(request: Request) {
       }
     );
 
-    const data = { items, stock };
+    const deep = Math.round(stock / items)
+
+    const data = { items, stock, deep };
 
     return Response.json({ data })
 
