@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
 
-import { BarListHero } from ".";
+import { BarList } from ".";
 
 export default {
   title: "Components/BarList",
-  component: BarListHero,
+  component: BarList,
 } as Meta;
 
 export const Default: StoryObj = {};
