@@ -5,5 +5,9 @@ interface FiltersRootProps {
 }
 
 export function FiltersRoot({ children }: FiltersRootProps) {
-  return <div className="flex gap-4 items-center">{children}</div>;
+  return (
+    <div className="max-md:top-[100vh] shadow-sm z-20 w-fulls h-12 fixed top-20 bg-white px-10 flex items-center justify-end gap-4">
+      {children}
+    </div>
+  );
 }

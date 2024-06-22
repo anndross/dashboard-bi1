@@ -1,7 +1,7 @@
 "use client";
-import { BarChartHero } from "@/components/BarChart";
 import { useContext, useEffect, useState } from "react";
 import FiltersContext from "../estoque/context";
+import { BarList } from "@/components/BarList";
 
 export function StockByCategory() {
   const { filters } = useContext(FiltersContext);
@@ -12,7 +12,7 @@ export function StockByCategory() {
     async function getData() {
       try {
         const res: any = await fetch(
-          "https://dashboard-bi1.vercel.app/api/stocks-category",
+          "http://localhost:3000/api/stocks-category",
           {
             method: "POST",
             body: JSON.stringify(filters),
@@ -31,11 +31,5 @@ export function StockByCategory() {
     getData();
   }, [filters]);
 
-  return (
-    <BarChartHero
-      index="category"
-      data={stocksCategory}
-      categories={["Estoque"]}
-    />
-  );
+  return <BarList data={stocksCategory} />;
 }

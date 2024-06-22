@@ -45,8 +45,8 @@ export async function POST(request: Request) {
 
       const mappedData = Object.entries(allCategoriesWithStock).map((e) => {
         return {
-          category: e[0] as string,
-          Estoque: e[1] as number,
+          name: e[0] as string,
+          value: e[1] as number,
         };
       });
 

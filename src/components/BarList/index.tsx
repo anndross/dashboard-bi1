@@ -1,4 +1,4 @@
-import { BarList } from "@tremor/react";
+import { BarList as BarListTremor } from "@tremor/react";
 
 const mock = [
   { name: "/home", value: 456 },
@@ -6,15 +6,15 @@ const mock = [
   { name: "/cancellation", value: 51 },
 ];
 
-interface BarListHeroProps {
+interface BarListProps {
   data?: {
     name: string;
     value: number;
   }[];
 }
 
-export const BarListHero = ({ data = mock }: BarListHeroProps) => (
+export const BarList = ({ data = mock }: BarListProps) => (
   <>
-    <BarList data={data} className="mx-auto max-w-sm" />
+    <BarListTremor data={data} className="w-full" />
   </>
 );
