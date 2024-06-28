@@ -37,7 +37,7 @@ export function StockBySubsidiary() {
 
   const { data, categories } = stocksSubsidiary;
 
-  const colors = Array(10)
+  const colorsYellow = Array(10)
     .fill("yellow")
     .map((e, i, arr) => {
       if (i === arr.length - 1) {
@@ -46,12 +46,28 @@ export function StockBySubsidiary() {
       return `${e}-${100 * (i + 1)}`;
     });
 
+  const colorsLime = Array(8)
+    .fill("lime")
+    .map((e, i, arr) => {
+      if (i === arr.length - 1) {
+        return `${e}-${100 * i + 50}`;
+      }
+      return `${e}-${100 * (i + 1) + 200}`;
+    });
+
   return (
     <div className="flex items-center justify-start w-full h-full">
       <div className="w-60">
-        <DonutChartHero variant="donut" data={data} colors={colors} />
+        <DonutChartHero
+          variant="donut"
+          data={data}
+          colors={[...colorsYellow, ...colorsLime]}
+        />
       </div>
-      <Legend categories={categories} colors={colors} />
+      <Legend
+        categories={categories}
+        colors={[...colorsYellow, ...colorsLime]}
+      />
     </div>
   );
 }
