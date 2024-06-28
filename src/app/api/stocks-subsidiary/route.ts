@@ -36,8 +36,8 @@ export async function POST(request: Request) {
     const data = (() => {
       const allBranchsWithStock = results.reduce(
         (acc: any, currentValue: any) => {
-          acc[currentValue["Área"]] =
-            currentValue["Qtde Estoque"] + (acc[currentValue["Área"]] || 0);
+          acc[currentValue["Filial"]] =
+            currentValue["Qtde Estoque"] + (acc[currentValue["Filial"]] || 0);
 
           return acc;
         },
