@@ -8,7 +8,7 @@ export function Legend({ colors, categories }: any) {
             className="flex items-center justify-start gap-2 text-left"
           >
             <div
-              className={`h-[7px] w-[7px] flex-shrink-0 flex-grow-0 rounded-sm bg-${colors[index]}-700`}
+              className={`h-[7px] w-[7px] flex-shrink-0 flex-grow-0 rounded-sm bg-${colors[index]}`}
             ></div>
             <span className="text-zinc-700 text-sm whitespace-nowrap">{e}</span>
           </div>

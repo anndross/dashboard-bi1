@@ -1,7 +1,11 @@
 "use client";
 import { useFormStatus } from "react-dom";
 
-export function ButtonSubmit() {
+interface ButtonSubmitProps {
+  onClick?: () => void;
+}
+
+export function ButtonSubmit({ onClick }: ButtonSubmitProps) {
   const { pending } = useFormStatus();
 
   return (

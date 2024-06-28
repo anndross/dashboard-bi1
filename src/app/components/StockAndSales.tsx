@@ -30,8 +30,10 @@ export function StockAndSales() {
       }
     }
 
+    console.log(`filters`, filters);
     getData();
   }, [filters]);
+  console.log(`filters 1`, filters);
 
   return (
     <>
@@ -41,7 +43,7 @@ export function StockAndSales() {
         <AreaChartHero
           data={salesQuantityAndStocksQuantity}
           categories={["Quantidade em estoque", "Quantidade de vendas"]}
-          colors={["indigo", "rose"]}
+          colors={["yellow-500", "yellow-700"]}
           index="date"
         />
       )}

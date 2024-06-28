@@ -4,7 +4,8 @@ import { AuthService } from './modules/auth/services/auth';
 export const config = { matcher: '/((?!_next/static|_next/image|favicon.ico|assets/).*)', };
 
 const publicRoutes = [
-  '/login'
+  '/login',
+  '/api/login',
 ];
 
 export async function middleware(req: NextRequest) {

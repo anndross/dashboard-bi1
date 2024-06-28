@@ -88,7 +88,7 @@ export const SelectSearch = forwardRef<HTMLDivElement, SelectSearchProps>(
     }, [sentinelRef]);
 
     return (
-      <SearchSelect {...props}>
+      <SearchSelect {...props} className="w-48">
         {paginatedOptions.map((e, i) => (
           <SearchSelectItem key={e.value} value={e.value}>
             {e.label}
@@ -102,10 +102,22 @@ export const SelectSearch = forwardRef<HTMLDivElement, SelectSearchProps>(
 
 SelectSearch.displayName = "SelectSearch";
 
-function SelectMulti({ options }: SelectProps) {
+interface SelectMultiProps extends Omit<MultiSelectProps, "children"> {
+  options: {
+    value: string;
+    label: string;
+    DisplayName?: string;
+  }[];
+}
+
+export function SelectMulti({ options, ...props }: SelectMultiProps) {
+  const [paginatedOptions, setPaginatedOptions] = useState(
+    options.slice(0, 10)
+  );
+
   return (
-    <MultiSelect defaultValue={[options[0].value]}>
-      {options.map((e) => (
+    <MultiSelect {...props} className="w-48">
+      {paginatedOptions.map((e) => (
         <MultiSelectItem key={e.value} value={e.value}>
           {e.label}
         </MultiSelectItem>

@@ -14,7 +14,6 @@ export async function POST(request: Request) {
     const raw = JSON.stringify({
       procedure: "p.SM_Dash_Stocks",
       params: {
-        CalendarYear: "2024",
         User: user!.user,
         ...body
       },

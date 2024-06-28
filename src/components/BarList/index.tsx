@@ -15,6 +15,6 @@ interface BarListProps {
 
 export const BarList = ({ data = mock }: BarListProps) => (
   <>
-    <BarListTremor data={data} className="w-full" />
+    <BarListTremor color="yellow-500" data={data} className="w-full" />
   </>
 );

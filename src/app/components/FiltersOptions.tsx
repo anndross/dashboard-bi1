@@ -2,7 +2,7 @@
 import { Filters } from "@/components/Filters";
 import { useContext, useEffect, useRef, useState } from "react";
 import FiltersContext from "../estoque/context";
-import { SelectHero, SelectSearch } from "@/components/Select";
+import { SelectHero, SelectMulti, SelectSearch } from "@/components/Select";
 
 export function FiltersOptions() {
   const { filters, setFilters } = useContext(FiltersContext);
@@ -31,31 +31,57 @@ export function FiltersOptions() {
   return (
     <>
       {optionsArray.map((options: any, index: number) => (
-        <SelectSearch
-          options={options}
-          onValueChange={(selectedOption) => {
-            if (selectedOption.length) {
-              const mappedSelectedOption = {
-                [options[0].Column]: selectedOption,
+        <div className="shrink" key={index}>
+          <SelectMulti
+            onValueChange={(values) => {
+              const mappedColumnWithValues = {
+                [options[0].Column]: values,
               };
 
-              setFilters((prev: any) => ({
-                ...prev,
-                ...mappedSelectedOption,
-              }));
-            } else {
-              const filtersWithoutColumn: any = filters;
+              if (!values.length) {
+                console.log(`values no tiene length`);
+                setFilters((prev: any) => {
+                  const filtersWithoutColumn: any = { ...prev };
 
-              delete filtersWithoutColumn[options[0].Column];
+                  delete filtersWithoutColumn[options[0].Column];
 
-              setFilters(filtersWithoutColumn);
-            }
-          }}
-          key={index}
-          placeholder={options[0].DisplayName}
-          defaultValue={localStorage.getItem(options[0].Column) ?? ""}
-        />
+                  return filtersWithoutColumn;
+                });
+                console.log(`values no tiene length`, filters);
+              } else {
+                setFilters((prev: any) => ({
+                  ...prev,
+                  ...mappedColumnWithValues,
+                }));
+              }
+            }}
+            options={options}
+            placeholder={options[0].DisplayName}
+          />
+        </div>
       ))}
     </>
   );
 }
+
+// onValueChange={(selectedOption) => {
+//   if (selectedOption.length) {
+//     const mappedSelectedOption = {
+//       [options[0].Column]: [
+//         ...(filters[options[0].Column] ?? []),
+//         selectedOption,
+//       ],
+//     };
+
+//     setFilters((prev: any) => ({
+//       ...prev,
+//       ...mappedSelectedOption,
+//     }));
+//   } else {
+//     const filtersWithoutColumn: any = filters;
+
+//     delete filtersWithoutColumn[options[0].Column];
+
+//     setFilters(filtersWithoutColumn);
+//   }
+// }}

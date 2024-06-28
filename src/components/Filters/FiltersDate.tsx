@@ -7,19 +7,49 @@ import { DateRangePickerValue } from "@tremor/react";
 import { format } from "date-fns";
 
 export function FiltersDate() {
-  const { setFilters } = useContext(FiltersContext);
+  const { filters, setFilters } = useContext(FiltersContext);
 
   function updateDate(rangeDate: DateRangePickerValue) {
-    setFilters((prev: any) => ({
-      ...prev,
-      ...(rangeDate.from && {
-        StartDate: format(rangeDate.from, "yyyy-MM-dd"),
-      }),
-      ...(rangeDate.to && {
-        EndDate: format(rangeDate.to, "yyyy-MM-dd"),
-      }),
-    }));
+    const mappedRangeDate = {
+      from: rangeDate.from || rangeDate.to,
+      to: rangeDate.to || rangeDate.from,
+    };
+    console.log(`mappedRangeDate`, mappedRangeDate);
+
+    if (!mappedRangeDate.from && !mappedRangeDate.to) {
+      const filtersWithoutDate: any = filters;
+
+      delete filtersWithoutDate.StartDate;
+      delete filtersWithoutDate.EndDate;
+
+      console.log(`filtersWithoutDate`, filtersWithoutDate);
+
+      setFilters((prev: any) => {
+        const filtersWithoutDate: any = { ...prev };
+
+        delete filtersWithoutDate.StartDate;
+        delete filtersWithoutDate.EndDate;
+
+        return filtersWithoutDate;
+      });
+    } else {
+      console.log(`mappedRangeDate`, mappedRangeDate);
+
+      setFilters((prev: any) => ({
+        ...prev,
+        ...(mappedRangeDate.from && {
+          StartDate: format(mappedRangeDate.from, "yyyy-MM-dd"),
+        }),
+        ...(mappedRangeDate.to && {
+          EndDate: format(mappedRangeDate.to, "yyyy-MM-dd"),
+        }),
+      }));
+    }
   }
 
-  return <DatePicker onValueChange={updateDate} />;
+  return (
+    <div className="shrink">
+      <DatePicker onValueChange={updateDate} />
+    </div>
+  );
 }

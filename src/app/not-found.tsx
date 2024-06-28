@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotFound() {
   return (
     <section className="h-full w-full">
@@ -12,12 +14,12 @@ export default function NotFound() {
           <p className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
             Essa página não existe, você pode voltar acessando o link abaixo.
           </p>
-          <a
-            href="#"
+          <Link
+            href="/estoque"
             className="inline-flex text-black bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4"
           >
-            Volte para home
-          </a>
+            Volte para estoque
+          </Link>
         </div>
       </div>
     </section>

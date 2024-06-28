@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { UserData } from "@/components/Header/User";
 import { getUserPayload } from "../utils/getSessionPayload";
 
@@ -58,8 +58,10 @@ export async function POST(request: Request) {
       );
 
       const mappedData = salesQuantityAndStocksQuantityEntries.map((e: any) => {
+        const date = parse(e[0], "EEE, dd MMM yyyy HH:mm:ss 'GMT'", new Date());
+
         return {
-          date: format(new Date(e[0]), "dd/MM/yyyy"),
+          date: format(date, "dd/MM/yyyy"),
           ...e[1],
         };
       });

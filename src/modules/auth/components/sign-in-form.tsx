@@ -1,20 +1,49 @@
+"use client";
 import Image from "next/image";
 import { loginAction } from "../actions/login";
 import { ButtonSubmit } from "./button-submit";
+import { ToastContainer, toast } from "react-toastify";
+import { FormEvent, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export function SignInForm() {
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const router = useRouter();
+
+  async function handleLogin(event: FormEvent) {
+    event.preventDefault();
+
+    const response = await fetch("https://dashboard-bi1.vercel.app/api/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data.error) {
+      router.push("/estoque");
+      return;
+    }
+
+    console.log(`error`, data);
+    toast.error(data.error);
+    return;
+  }
+
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
+      {/* <ToastContainer /> */}
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Olá, entre no seu admin!
           </h1>
-          <form
-            className="space-y-4 md:space-y-6"
-            action={loginAction}
-            method="POST"
-          >
+          <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
             <div>
               <label
                 htmlFor="email"
@@ -29,6 +58,7 @@ export function SignInForm() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="exemplo@empresa.com"
                 required={true}
+                ref={emailRef}
               />
             </div>
             <div>
@@ -45,6 +75,7 @@ export function SignInForm() {
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required={true}
+                ref={passwordRef}
               />
             </div>
             <div className="flex items-center justify-between">

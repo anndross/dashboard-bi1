@@ -37,30 +37,21 @@ export function StockBySubsidiary() {
 
   const { data, categories } = stocksSubsidiary;
 
+  const colors = Array(10)
+    .fill("yellow")
+    .map((e, i, arr) => {
+      if (i === arr.length - 1) {
+        return `${e}-${100 * i + 50}`;
+      }
+      return `${e}-${100 * (i + 1)}`;
+    });
+
   return (
     <div className="flex items-center justify-start w-full h-full">
       <div className="w-60">
-        <DonutChartHero variant="donut" data={data} />
+        <DonutChartHero variant="donut" data={data} colors={colors} />
       </div>
-      <Legend
-        categories={categories}
-        colors={[
-          "blue",
-          "cyan",
-          "indigo",
-          "violet",
-          "fuchsia",
-          "orange",
-          "red",
-          "pink",
-          "indigo",
-          "violet",
-          "fuchsia",
-          "orange",
-          "red",
-          "pink",
-        ]}
-      />
+      <Legend categories={categories} colors={colors} />
     </div>
   );
 }

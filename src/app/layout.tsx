@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={clsx(
-          "h-screen min-h-screen flex flex-col pt-32",
+          "h-screen min-h-screen flex flex-col pt-48",
           inter.className
         )}
       >
