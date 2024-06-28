@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         (acc: any, currentValue: any) => {
           acc[currentValue["Categoria"]] =
             currentValue["Qtde Estoque"] +
-            (acc[currentValue["Últ. Pedido"]] || 0);
+            (acc[currentValue["Categoria"]] || 0);
 
           return acc;
         },
