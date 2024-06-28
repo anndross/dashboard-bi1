@@ -15,26 +15,6 @@ export default function StockPage() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   const [filters, setFilters] = useState({});
 
-  useEffect(() => {
-    function persistFiltersOnReload() {
-      const storageFilters = localStorage.getItem("filters");
-
-      if (storageFilters) {
-        setFilters(JSON.parse(storageFilters));
-      }
-    }
-
-    persistFiltersOnReload();
-  }, []);
-
-  useEffect(() => {
-    function updateStorageFilters() {
-      localStorage.setItem("filters", JSON.stringify(filters));
-    }
-
-    updateStorageFilters();
-  }, [filters]);
-
   return (
     <>
       <FiltersContext.Provider value={{ filters, setFilters }}>
