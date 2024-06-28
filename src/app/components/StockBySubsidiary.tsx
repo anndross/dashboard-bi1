@@ -50,7 +50,7 @@ export function StockBySubsidiary() {
     .fill("lime")
     .map((e, i, arr) => {
       if (i === arr.length - 1) {
-        return `${e}-${100 * i + 50}`;
+        return `${e}-${100 * i + 250}`;
       }
       return `${e}-${100 * (i + 1) + 200}`;
     });
