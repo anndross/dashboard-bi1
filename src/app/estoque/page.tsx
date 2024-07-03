@@ -10,6 +10,7 @@ import { Filters } from "@/components/Filters";
 import { StockAndSales } from "../components/StockAndSales";
 import FiltersContext from "./context";
 import { AvailableStockAndItems } from "../components/AvailableStockAndItems";
+import { HealthQuantity } from "../components/HealthQuantity";
 
 export default function StockPage() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -54,36 +55,19 @@ export default function StockPage() {
                 </h2>
               </div>
             </div>
-            <Suspense fallback={<Loading />}>
-              <StockBySubsidiary />
-            </Suspense>
+            <div className="flex w-full h-full justify-between items-center gap-3">
+              <Suspense fallback={<Loading />}>
+                <StockBySubsidiary />
+              </Suspense>
+
+              <Suspense fallback={<Loading />}>
+                <HealthQuantity />
+              </Suspense>
+            </div>
           </div>
 
-          <div className="w-full bg-white p-4 h-[100vh] rounded-md border border-gray-200 flex items-center col-span-full flex-col justify-start">
-            <div className="w-full flex gap-8 justify-start">
-              <div className="flex flex-col gap-2">
-                <h2 className="uppercase text-sm text-zinc-700 font-semibold">
-                  saúde de estoque por item
-                </h2>
-              </div>
-            </div>
-            <Suspense fallback={<Loading />}>
-              <StockHealthByItem />
-            </Suspense>
-          </div>
-
-          <div className="w-full bg-white p-4 rounded-md border h-[100vh] border-gray-200 flex items-center flex-col justify-start col-span-full">
-            <div className="w-full flex gap-8 justify-start">
-              <div className="flex flex-col gap-2">
-                <h2 className="uppercase text-sm text-zinc-700 font-semibold">
-                  pedidos
-                </h2>
-              </div>
-            </div>
-            <Suspense fallback={<Loading />}>
-              <Orders />
-            </Suspense>
-          </div>
+          <StockHealthByItem />
+          <Orders />
         </main>
       </FiltersContext.Provider>
     </>

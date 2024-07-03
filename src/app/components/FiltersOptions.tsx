@@ -3,6 +3,7 @@ import { Filters } from "@/components/Filters";
 import { useContext, useEffect, useRef, useState } from "react";
 import FiltersContext from "../estoque/context";
 import { SelectHero, SelectMulti, SelectSearch } from "@/components/Select";
+import ReactSelect from "react-select";
 
 export function FiltersOptions() {
   const { filters, setFilters } = useContext(FiltersContext);
@@ -31,8 +32,36 @@ export function FiltersOptions() {
   return (
     <>
       {optionsArray.map((options: any, index: number) => (
-        <div className="shrink" key={index}>
-          <SelectMulti
+        <div className="shrink w-48" key={index}>
+          <ReactSelect
+            isMulti
+            onChange={(values) => {
+              const mappedColumnWithValues = {
+                [options[0].Column]: values.map((e: any) => e.value),
+              };
+
+              if (!values.length) {
+                console.log(`values no tiene length`);
+                setFilters((prev: any) => {
+                  const filtersWithoutColumn: any = { ...prev };
+
+                  delete filtersWithoutColumn[options[0].Column];
+
+                  return filtersWithoutColumn;
+                });
+                console.log(`values no tiene length`, filters);
+              } else {
+                setFilters((prev: any) => ({
+                  ...prev,
+                  ...mappedColumnWithValues,
+                }));
+              }
+            }}
+            options={options}
+            placeholder={options[0].DisplayName}
+          />
+
+          {/* <SelectMulti
             onValueChange={(values) => {
               const mappedColumnWithValues = {
                 [options[0].Column]: values,
@@ -57,7 +86,7 @@ export function FiltersOptions() {
             }}
             options={options}
             placeholder={options[0].DisplayName}
-          />
+          /> */}
         </div>
       ))}
     </>

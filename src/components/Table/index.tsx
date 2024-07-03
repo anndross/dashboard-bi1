@@ -1,3 +1,4 @@
+import * as XLSX from "xlsx";
 import {
   Table,
   TableBody,
@@ -9,6 +10,7 @@ import {
 import Image from "next/image";
 import { Badge } from "../Badge";
 import { Tailwindest } from "tailwindest";
+import { normalizeString } from "@/utils";
 
 interface TableHeroProps {
   headerCells: string[];
@@ -18,8 +20,6 @@ interface TableHeroProps {
 
 function renderRelativeTag(element: any) {
   // Função para normalizar a string
-  const normalizeString = (str: string) =>
-    typeof str === "string" ? str.normalize("NFKC") : str;
 
   const mappedHealthElement = normalizeString(element);
 

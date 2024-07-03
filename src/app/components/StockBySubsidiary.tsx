@@ -1,8 +1,9 @@
 "use client";
 import { DonutChartHero } from "@/components/DonutChart";
-import { Legend } from "@/components/Legend";
+// import { Legend } from "@/components/Legend";
 import { useContext, useEffect, useState } from "react";
 import FiltersContext from "../estoque/context";
+import { Legend } from "@tremor/react";
 
 type stocksSubsidiaryType = { data: []; categories: [] };
 
@@ -57,14 +58,14 @@ export function StockBySubsidiary() {
 
   return (
     <div className="flex items-center justify-start w-full h-full">
-      <div className="w-60">
-        <DonutChartHero
-          variant="donut"
-          data={data}
-          colors={[...colorsYellow, ...colorsLime]}
-        />
-      </div>
+      <DonutChartHero
+        className="w-52"
+        variant="donut"
+        data={data}
+        colors={[...colorsYellow, ...colorsLime]}
+      />
       <Legend
+        className="w-full"
         categories={categories}
         colors={[...colorsYellow, ...colorsLime]}
       />
