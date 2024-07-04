@@ -57,7 +57,7 @@ export function StockBySubsidiary() {
     });
 
   return (
-    <div className="flex items-center justify-start w-full h-full">
+    <div className="flex items-center justify-center flex-col w-full h-full">
       <DonutChartHero
         className="w-52"
         variant="donut"

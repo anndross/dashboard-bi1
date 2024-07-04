@@ -55,7 +55,7 @@ export default function StockPage() {
                 </h2>
               </div>
             </div>
-            <div className="flex w-full h-full justify-between items-center gap-3">
+            <div className="flex w-full h-full justify-between items-center gap-4">
               <Suspense fallback={<Loading />}>
                 <StockBySubsidiary />
               </Suspense>
