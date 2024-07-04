@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     ).then((data) => data.json());
 
     results.forEach((obj: any) => {
-      occurrenceByStockHealth[normalizeString(obj["Saúde Estoque"])] += 1
+      occurrenceByStockHealth[normalizeString(obj["Saúde Estoque"])] += obj["Qtde Estoque"]
     })
 
     const occurrenceByStockHealthArray = Object.keys(occurrenceByStockHealth).map(e => {
