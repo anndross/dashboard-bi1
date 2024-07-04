@@ -8,6 +8,7 @@ export async function POST(request: Request) {
 
   const occurrenceByStockHealth: { [key: string]: number } = {
     "PARADO (+6m)": initialValue,
+    "PARADO (3-6m)": initialValue,
     "SAUDÁVEL": initialValue,
     "SEM VENDA": initialValue,
     "ZERADO": initialValue,
