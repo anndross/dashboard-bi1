@@ -9,10 +9,11 @@ type stocksHealthType = { headerCells: []; rowsCells: [] };
 export function StockHealthByItem() {
   const { filters } = useContext(FiltersContext);
 
-  const [stocksSubsidiary, setStocksSubsidiary] = useState<stocksHealthType>({
-    headerCells: [],
-    rowsCells: [],
-  });
+  const [stocksSubsidiary, setStocksSubsidiary] =
+    useState<stocksHealthType | null>({
+      headerCells: [],
+      rowsCells: [],
+    });
 
   useEffect(() => {
     async function getData() {
@@ -28,6 +29,8 @@ export function StockHealthByItem() {
 
         if (data) {
           setStocksSubsidiary(data);
+        } else {
+          setStocksSubsidiary(null);
         }
       } catch (error) {
         console.log(error);
@@ -37,7 +40,10 @@ export function StockHealthByItem() {
     getData();
   }, [filters]);
 
-  const { headerCells, rowsCells } = stocksSubsidiary;
+  const { headerCells, rowsCells } = stocksSubsidiary || {
+    headerCells: [],
+    rowsCells: [],
+  };
 
   return (
     <div className="w-full bg-white p-4 h-[100vh] rounded-md border border-gray-200 flex items-center col-span-full flex-col justify-start">
@@ -54,11 +60,17 @@ export function StockHealthByItem() {
           rowsCells={rowsCells}
         />
       </div>
-      <TableHero
-        heightCells="h-28"
-        headerCells={headerCells}
-        rowsCells={rowsCells}
-      />
+      {stocksSubsidiary ? (
+        <TableHero
+          heightCells="h-56"
+          headerCells={headerCells}
+          rowsCells={rowsCells}
+        />
+      ) : (
+        <p className="text-xl text-zinc-700 m-auto">
+          Não há dados com base no filtro selecionado
+        </p>
+      )}
     </div>
   );
 }

@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     ).then((data) => data.json());
 
     const { results } = res;
+
     /**
      * Será utilizado como exemplar das chaves do header da tabela
      */

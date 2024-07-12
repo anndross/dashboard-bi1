@@ -9,7 +9,7 @@ type ordersType = { headerCells: []; rowsCells: [] };
 export function Orders() {
   const { filters } = useContext(FiltersContext);
 
-  const [orders, setOrders] = useState<ordersType>({
+  const [orders, setOrders] = useState<ordersType | null>({
     headerCells: [],
     rowsCells: [],
   });
@@ -28,6 +28,8 @@ export function Orders() {
 
         if (data) {
           setOrders(data);
+        } else {
+          setOrders(null);
         }
       } catch (error) {
         console.error(error);
@@ -37,7 +39,10 @@ export function Orders() {
     getData();
   }, [filters]);
 
-  const { headerCells, rowsCells } = orders;
+  const { headerCells, rowsCells } = orders ?? {
+    headerCells: [],
+    rowsCells: [],
+  };
 
   return (
     <div className="w-full bg-white p-4 rounded-md border h-[100vh] border-gray-200 flex items-center flex-col justify-start col-span-full">
@@ -54,11 +59,17 @@ export function Orders() {
           rowsCells={rowsCells}
         />
       </div>
-      <TableHero
-        heightCells="h-56"
-        headerCells={headerCells}
-        rowsCells={rowsCells}
-      />
+      {orders ? (
+        <TableHero
+          heightCells="h-56"
+          headerCells={headerCells}
+          rowsCells={rowsCells}
+        />
+      ) : (
+        <p className="text-xl text-zinc-700 m-auto">
+          Não há dados com base no filtro selecionado
+        </p>
+      )}
     </div>
   );
 }
