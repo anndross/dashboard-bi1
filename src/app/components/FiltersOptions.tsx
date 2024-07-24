@@ -36,8 +36,11 @@ export function FiltersOptions() {
           <ReactSelect
             isMulti
             onChange={(values) => {
+              const mappedValues = values.map((e: any) => e.value);
+
               const mappedColumnWithValues = {
-                [options[0].Column]: values.map((e: any) => e.value),
+                [options[0].Column]:
+                  mappedValues.length === 1 ? mappedValues[0] : mappedValues,
               };
 
               if (!values.length) {
